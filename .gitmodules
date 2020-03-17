@@ -1,0 +1,3 @@
+[submodule "Ancora/vendor/spdlog"]
+	path = Ancora/vendor/spdlog
+	url = https://github.com/gabime/spdlog
