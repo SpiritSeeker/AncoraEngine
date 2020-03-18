@@ -2,9 +2,6 @@
 
 #include "Ancora/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Ancora {
 
 	enum class EventType

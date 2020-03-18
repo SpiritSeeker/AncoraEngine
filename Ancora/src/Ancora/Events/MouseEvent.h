@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Ancora {
 
 	class ANCORA_API MouseMovedEvent : public Event

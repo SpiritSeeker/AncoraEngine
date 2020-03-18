@@ -24,6 +24,9 @@ project "Ancora"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "aepch.h"
+	pchsource "Ancora/src/aepch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
