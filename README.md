@@ -6,8 +6,14 @@ Ancora Engine
 git clone --recurse-submodules https://github.com/SpiritSeeker/Ancora
 ```
 
-## Compiling and running
-### Linux
+## Linux
+
+### Dependencies
+```shell
+sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
+```
+
+### Compiling and running
 From inside the root Ancora directory, run
 ```shell
 vendor/bin/premake/premake5 gmake

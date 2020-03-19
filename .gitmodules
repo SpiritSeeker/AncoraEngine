@@ -1,3 +1,6 @@
 [submodule "Ancora/vendor/spdlog"]
 	path = Ancora/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Ancora/vendor/GLFW"]
+	path = Ancora/vendor/GLFW
+	url = https://github.com/SpiritSeeker/glfw

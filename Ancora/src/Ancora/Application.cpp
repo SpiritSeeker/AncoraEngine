@@ -2,12 +2,11 @@
 #include "Application.h"
 
 #include "Ancora/Events/ApplicationEvent.h"
-#include "Ancora/Log.h"
 
 namespace Ancora {
 	Application::Application()
 	{
-
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -17,9 +16,9 @@ namespace Ancora {
 
 	void Application::Run()
 	{
-		WindowResizeEvent e(1080, 720);
-		AE_TRACE(e);
-
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
 	}
 }

@@ -16,6 +16,11 @@ workspace "Ancora"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
+
+include "Ancora/vendor/GLFW"
+
 project "Ancora"
 	location "Ancora"
 	kind "SharedLib"
@@ -33,15 +38,40 @@ project "Ancora"
 		"%{prj.name}/src/**.cpp"
 	}
 
+	excludes
+	{
+		"%{prj.name}/src/Platform/**.h",
+		"%{prj.name}/src/Platform/**.cpp"
+	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW"
 	}
 
 	filter "system:linux"
 		cppdialect "C++17"
 		staticruntime "On"
+
+		links
+		{
+			"GL",
+			"dl",
+			"pthread"
+		}
+
+		files
+		{
+			"%{prj.name}/src/Platform/Linux/**.h",
+			"%{prj.name}/src/Platform/Linux/**.cpp"
+		}
 
 		defines
 		{
@@ -53,6 +83,17 @@ project "Ancora"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+
+		links
+		{
+			"libopengl32.lib"
+		}
+
+		files
+		{
+			"%{prj.name}/src/Platform/Windows/**.h",
+			"%{prj.name}/src/Platform/Windows/**.cpp"
+		}
 
 		defines
 		{
@@ -66,7 +107,11 @@ project "Ancora"
 		}
 
 	filter "configurations:Debug"
-		defines "AE_DEBUG"
+		defines 
+		{
+			"AE_DEBUG",
+			"AE_ENABLE_ASSERTS"
+		}
 		symbols "On"
 
 	filter "configurations:Release"
@@ -124,7 +169,11 @@ project "Sandbox"
 
 
 	filter "configurations:Debug"
-		defines "AE_DEBUG"
+		defines 
+		{
+			"AE_DEBUG",
+			"AE_ENABLE_ASSERTS"
+		}
 		symbols "On"
 
 	filter "configurations:Release"

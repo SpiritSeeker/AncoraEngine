@@ -32,3 +32,21 @@ namespace Ancora {
 #define AE_WARN(...)    ::Ancora::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define AE_ERROR(...)   ::Ancora::Log::GetClientLogger()->error(__VA_ARGS__)
 #define AE_FATAL(...)   ::Ancora::Log::GetClientLogger()->fatal(__VA_ARGS__)
+
+#ifdef AE_PLATFORM_WINDOWS
+	#ifdef AE_ENABLE_ASSERTS
+		#define AE_ASSERT(x, ...) { if(!(x)) {AE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+		#define AE_CORE_ASSERT(x, ...) { if(!(x)) {AE_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#else
+		#define AE_ASSERT(x, ...)
+		#define AE_CORE_ASSERT(x, ...)
+	#endif
+#elif AE_PLATFORM_LINUX
+	#ifdef AE_ENABLE_ASSERTS
+		#define AE_ASSERT(x, ...) { if(!(x)) AE_ERROR("Assertion Failed: {0}", __VA_ARGS__); }
+		#define AE_CORE_ASSERT(x, ...) { if(!(x)) AE_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); }
+	#else
+		#define AE_ASSERT(x, ...)
+		#define AE_CORE_ASSERT(x, ...)
+	#endif
+#endif
