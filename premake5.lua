@@ -18,8 +18,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
+IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
 
 include "Ancora/vendor/GLFW"
+include "Ancora/vendor/Glad"
 
 project "Ancora"
 	location "Ancora"
@@ -48,12 +50,14 @@ project "Ancora"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
-		"GLFW"
+		"GLFW",
+		"Glad"
 	}
 
 	filter "system:linux"
@@ -76,7 +80,8 @@ project "Ancora"
 		defines
 		{
 			"AE_PLATFORM_LINUX",
-			"AE_BUILD_DLL"
+			"AE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "system:windows"
@@ -98,7 +103,8 @@ project "Ancora"
 		defines
 		{
 			"AE_PLATFORM_WINDOWS",
-			"AE_BUILD_DLL"
+			"AE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
