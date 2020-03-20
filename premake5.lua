@@ -1,5 +1,6 @@
 workspace "Ancora"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -24,6 +25,7 @@ IncludeDir["ImGui"] = "Ancora/vendor/imgui"
 include "Ancora/vendor/GLFW"
 include "Ancora/vendor/Glad"
 include "Ancora/vendor/imgui"
+
 
 project "Ancora"
 	location "Ancora"
@@ -117,7 +119,7 @@ project "Ancora"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/".. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/".. outputdir .. "/Sandbox\"")
 		}
 
 	filter "configurations:Debug"
