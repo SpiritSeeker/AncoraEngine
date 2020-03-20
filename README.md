@@ -20,3 +20,8 @@ vendor/bin/premake/premake5 gmake
 make
 ./bin/Debug-linux-x86_64/Sandbox/Sandbox
 ```
+## Windows
+
+### Compiling and running
+From inside the root Ancora directory, run the ```GenerateProjects.bat``` file by double clicking it.
+This should generate a Visual Studio 2017 solution file. Open the solution with Visual Studio.
