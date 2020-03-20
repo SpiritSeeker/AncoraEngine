@@ -5,6 +5,8 @@
 #include "Ancora/Events/MouseEvent.h"
 #include "Ancora/Events/KeyEvent.h"
 
+#include <glad/glad.h>
+
 namespace Ancora {
 
 	static bool s_GLFWInitialized = false;
@@ -93,6 +95,14 @@ namespace Ancora {
 					break;
 				}
 			}
+		});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int key)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			
+			KeyTypedEvent event(key);
+			data.EventCallback(event);
 		});
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)

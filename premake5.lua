@@ -19,9 +19,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
+IncludeDir["ImGui"] = "Ancora/vendor/imgui"
 
 include "Ancora/vendor/GLFW"
 include "Ancora/vendor/Glad"
+include "Ancora/vendor/imgui"
 
 project "Ancora"
 	location "Ancora"
@@ -51,13 +53,15 @@ project "Ancora"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
-		"Glad"
+		"Glad",
+		"ImGui"
 	}
 
 	filter "system:linux"
@@ -74,7 +78,9 @@ project "Ancora"
 		files
 		{
 			"%{prj.name}/src/Platform/Linux/**.h",
-			"%{prj.name}/src/Platform/Linux/**.cpp"
+			"%{prj.name}/src/Platform/Linux/**.cpp",
+			"%{prj.name}/src/Platform/OpenGL/**.h",
+			"%{prj.name}/src/Platform/OpenGL/**.cpp"
 		}
 
 		defines
@@ -97,7 +103,9 @@ project "Ancora"
 		files
 		{
 			"%{prj.name}/src/Platform/Windows/**.h",
-			"%{prj.name}/src/Platform/Windows/**.cpp"
+			"%{prj.name}/src/Platform/Windows/**.cpp",
+			"%{prj.name}/src/Platform/OpenGL/**.h",
+			"%{prj.name}/src/Platform/OpenGL/**.cpp"
 		}
 
 		defines
