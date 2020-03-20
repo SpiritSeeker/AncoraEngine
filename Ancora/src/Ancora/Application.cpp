@@ -1,6 +1,10 @@
 #include "aepch.h"
 #include "Application.h"
 
+#include <glad/glad.h>
+
+#include "Input.h"
+
 namespace Ancora {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -50,8 +54,14 @@ namespace Ancora {
 	{
 		while (m_Running)
 		{
+			glClearColor(0, 0.5, 0.9, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto pos = Input::GetMousePosition();
+			AE_CORE_TRACE("{0}, {1}", pos.first, pos.second);
 
 			m_Window->OnUpdate();
 		}
