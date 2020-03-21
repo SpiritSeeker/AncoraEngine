@@ -7,3 +7,6 @@
 [submodule "Ancora/vendor/imgui"]
 	path = Ancora/vendor/imgui
 	url = https://github.com/SpiritSeeker/imgui
+[submodule "Ancora/vendor/glm"]
+	path = Ancora/vendor/glm
+	url = https://github.com/g-truc/glm

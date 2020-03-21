@@ -16,7 +16,11 @@ public:
 
 	void OnEvent(Ancora::Event& event) override
 	{
-		// AE_TRACE("{0}", event);
+		if (event.GetEventType() == Ancora::EventType::KeyPressed)
+		{
+			Ancora::KeyPressedEvent& e = (Ancora::KeyPressedEvent&)event;
+			AE_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 
