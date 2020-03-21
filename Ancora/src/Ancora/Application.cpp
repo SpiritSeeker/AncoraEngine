@@ -60,9 +60,6 @@ namespace Ancora {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
-			auto pos = Input::GetMousePosition();
-			AE_CORE_TRACE("{0}, {1}", pos.first, pos.second);
-
 			m_Window->OnUpdate();
 		}
 	}

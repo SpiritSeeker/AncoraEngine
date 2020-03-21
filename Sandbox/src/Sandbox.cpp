@@ -8,12 +8,15 @@ public:
 
 	void OnUpdate() override
 	{
-		AE_INFO("ExampleLayer::Update");
+		// AE_INFO("ExampleLayer::Update");
+
+		if (Ancora::Input::IsKeyPressed(AE_KEY_TAB))
+			AE_INFO("Tab key is pressed!");
 	}
 
 	void OnEvent(Ancora::Event& event) override
 	{
-		AE_TRACE("{0}", event);
+		// AE_TRACE("{0}", event);
 	}
 };
 
