@@ -6,6 +6,7 @@
 #include "Ancora/LayerStack.h"
 #include "Events/Event.h"
 #include "Ancora/Events/ApplicationEvent.h"
+#include "Ancora/ImGui/ImGuiLayer.h"
 
 namespace  Ancora {
 	class ANCORA_API Application
@@ -27,6 +28,7 @@ namespace  Ancora {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:
