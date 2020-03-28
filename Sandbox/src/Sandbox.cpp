@@ -37,7 +37,7 @@ public:
 	{
 
 	}
-	
+
 };
 
 Ancora::Application* Ancora::CreateApplication()

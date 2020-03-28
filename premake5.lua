@@ -23,15 +23,21 @@ IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ancora/vendor/imgui"
 IncludeDir["glm"] = "Ancora/vendor/glm"
 
+LibDir = {}
+LibDir["GLFW"] = "Ancora/vendor/GLFW/bin/" .. outputdir .. "/GLFW"
+LibDir["Glad"] = "Ancora/vendor/Glad/bin/" .. outputdir .. "/Glad"
+LibDir["ImGui"] = "Ancora/vendor/imgui/bin/" .. outputdir .. "/ImGui"
+LibDir["Ancora"] = "bin/" .. outputdir .. "/Ancora"
+
 include "Ancora/vendor/GLFW"
 include "Ancora/vendor/Glad"
 include "Ancora/vendor/imgui"
 
-
 project "Ancora"
 	location "Ancora"
-	kind "SharedLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 	warnings "Default"
 	-- warnings can take the values "Off", "Default", "Extra"
 
@@ -73,8 +79,12 @@ project "Ancora"
 	}
 
 	filter "system:linux"
-		cppdialect "C++17"
-		staticruntime "On"
+		kind "SharedLib"
+
+		defines
+		{
+			"AE_DYNAMIC_LINK"
+		}
 
 		links
 		{
@@ -99,9 +109,8 @@ project "Ancora"
 		}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
+		kind "StaticLib"
 
 		links
 		{
@@ -123,31 +132,31 @@ project "Ancora"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/".. outputdir .. "/Sandbox\"")
-		}
-
 	filter "configurations:Debug"
 		defines
 		{
 			"AE_DEBUG",
 			"AE_ENABLE_ASSERTS"
 		}
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "AE_RELEASE"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "AE_DIST"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -171,8 +180,6 @@ project "Sandbox"
 	}
 
 	filter "system:linux"
-		cppdialect "C++17"
-		staticruntime "On"
 
 		defines
 		{
@@ -181,8 +188,6 @@ project "Sandbox"
 		}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -197,12 +202,15 @@ project "Sandbox"
 			"AE_DEBUG",
 			"AE_ENABLE_ASSERTS"
 		}
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "AE_RELEASE"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "AE_DIST"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
