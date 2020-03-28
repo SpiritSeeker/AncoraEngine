@@ -32,6 +32,8 @@ project "Ancora"
 	location "Ancora"
 	kind "SharedLib"
 	language "C++"
+	warnings "Default"
+	-- warnings can take the values "Off", "Default", "Extra"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -127,7 +129,7 @@ project "Ancora"
 		}
 
 	filter "configurations:Debug"
-		defines 
+		defines
 		{
 			"AE_DEBUG",
 			"AE_ENABLE_ASSERTS"
@@ -190,7 +192,7 @@ project "Sandbox"
 
 
 	filter "configurations:Debug"
-		defines 
+		defines
 		{
 			"AE_DEBUG",
 			"AE_ENABLE_ASSERTS"
