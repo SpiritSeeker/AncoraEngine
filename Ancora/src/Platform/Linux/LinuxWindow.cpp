@@ -5,7 +5,7 @@
 #include "Ancora/Events/MouseEvent.h"
 #include "Ancora/Events/KeyEvent.h"
 
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Ancora {
 
@@ -47,10 +47,15 @@ namespace Ancora {
 			s_GLFWInitialized = true;
 		}
 
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		AE_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -102,7 +107,7 @@ namespace Ancora {
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int key)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			
+
 			KeyTypedEvent event(key);
 			data.EventCallback(event);
 		});
@@ -126,7 +131,7 @@ namespace Ancora {
 					break;
 				}
 
-			}			
+			}
 		});
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
@@ -154,7 +159,7 @@ namespace Ancora {
 	void LinuxWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void LinuxWindow::SetVSync(bool enabled)

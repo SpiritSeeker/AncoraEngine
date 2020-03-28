@@ -57,7 +57,7 @@ namespace Ancora {
 	{
 		while (m_Running)
 		{
-			glClearColor(0, 0.5, 0.9, 1);
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			for (Layer* layer : m_LayerStack)
