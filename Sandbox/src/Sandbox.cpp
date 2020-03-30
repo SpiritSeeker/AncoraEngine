@@ -1,8 +1,11 @@
 #include <Ancora.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Ancora::Layer
 {
@@ -82,15 +85,15 @@ public:
 
 			in vec4 v_Color;
 
-			uniform vec4 u_Color;
+			uniform vec3 u_Color;
 
 			void main()
 			{
-				color = u_Color;
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		m_Shader.reset(new Ancora::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(Ancora::Shader::Create(vertexSrc, fragmentSrc));
 
 		std::string blackVertexSrc = R"(
 			#version 450 core
@@ -122,7 +125,7 @@ public:
 			}
 		)";
 
-		m_BlackShader.reset(new Ancora::Shader(blackVertexSrc, blackFragmentSrc));
+		m_BlackShader.reset(Ancora::Shader::Create(blackVertexSrc, blackFragmentSrc));
 	}
 
 	void OnUpdate(Ancora::Timestep ts) override
@@ -153,18 +156,15 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		glm::vec4 orangeColor({ 1.0f, 0.5f, 0.0f, 1.0f });
-		glm::vec4 tealColor({ 0.0f, 0.5f, 0.7f, 1.0f });
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
 		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
 				glm::vec3 pos(x * 0.17f, y * 0.17f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				if ((x + y) % 2)
-					m_Shader->UploadUniformVec4("u_Color", orangeColor);
-				else
-					m_Shader->UploadUniformVec4("u_Color", tealColor);
 				Ancora::Renderer::Submit(m_Shader, m_VertexArray, transform);
 			}
 		}
@@ -178,6 +178,10 @@ public:
 	{
 		ImGui::Begin("Test");
 		ImGui::Text("FPS: %d", m_FPS);
+		ImGui::End();
+
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 
@@ -197,6 +201,8 @@ private:
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 90.0f;
 	int m_FPS;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 
