@@ -66,12 +66,10 @@ public:
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 
-			out vec3 v_Position;
 			out vec4 v_Color;
 
 			void main()
 			{
-				v_Position = a_Position;
 				v_Color = a_Color;
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
@@ -82,12 +80,13 @@ public:
 
 			layout(location = 0) out vec4 color;
 
-			in vec3 v_Position;
 			in vec4 v_Color;
+
+			uniform vec4 u_Color;
 
 			void main()
 			{
-				color = 0.5 * vec4(v_Position * 0.5 + 0.5, 1.0) + 0.5 * v_Color;
+				color = u_Color;
 			}
 		)";
 
@@ -154,17 +153,23 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		glm::vec4 orangeColor({ 1.0f, 0.5f, 0.0f, 1.0f });
+		glm::vec4 tealColor({ 0.0f, 0.5f, 0.7f, 1.0f });
 		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
 				glm::vec3 pos(x * 0.17f, y * 0.17f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				if ((x + y) % 2)
+					m_Shader->UploadUniformVec4("u_Color", orangeColor);
+				else
+					m_Shader->UploadUniformVec4("u_Color", tealColor);
 				Ancora::Renderer::Submit(m_Shader, m_VertexArray, transform);
 			}
 		}
 
-		// Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
+		Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
 
 		Ancora::Renderer::EndScene();
 	}
