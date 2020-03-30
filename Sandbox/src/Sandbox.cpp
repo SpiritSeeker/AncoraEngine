@@ -2,11 +2,13 @@
 
 #include "imgui.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public Ancora::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f)
 	{
 		m_VertexArray.reset(Ancora::VertexArray::Create());
 
@@ -62,6 +64,7 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -70,7 +73,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -96,13 +99,14 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -140,6 +144,16 @@ public:
 		else if (Ancora::Input::IsKeyPressed(AE_KEY_RIGHT))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
+		if (Ancora::Input::IsKeyPressed(AE_KEY_I))
+			m_SquarePosition.y += m_SquareMoveSpeed * ts;
+		else if (Ancora::Input::IsKeyPressed(AE_KEY_K))
+			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+
+		if (Ancora::Input::IsKeyPressed(AE_KEY_L))
+			m_SquarePosition.x += m_SquareMoveSpeed * ts;
+		else if (Ancora::Input::IsKeyPressed(AE_KEY_J))
+			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+
 		Ancora::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Ancora::RenderCommand::Clear();
 
@@ -148,7 +162,9 @@ public:
 
 		Ancora::Renderer::BeginScene(m_Camera);
 
-		Ancora::Renderer::Submit(m_Shader, m_VertexArray);
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_SquarePosition);
+
+		Ancora::Renderer::Submit(m_Shader, m_VertexArray, transform);
 		Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
 
 		Ancora::Renderer::EndScene();
@@ -177,6 +193,9 @@ private:
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 90.0f;
 	int m_FPS;
+
+	float m_SquareMoveSpeed = 1.0f;
+	glm::vec3 m_SquarePosition;
 };
 
 
