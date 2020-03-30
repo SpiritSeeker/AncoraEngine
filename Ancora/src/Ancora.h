@@ -11,4 +11,16 @@
 
 #include "Ancora/ImGui/ImGuiLayer.h"
 
+// ------------------ Renderer ------------------
+#include "Ancora/Renderer/Renderer.h"
+#include "Ancora/Renderer/RenderCommand.h"
+
+#include "Ancora/Renderer/Buffer.h"
+#include "Ancora/Renderer/Shader.h"
+#include "Ancora/Renderer/VertexArray.h"
+
+#include "Ancora/Renderer/OrthographicCamera.h"
+// ----------------------------------------------
+
+// ---------------- Entry Point -----------------
 #include "Ancora/EntryPoint.h"
