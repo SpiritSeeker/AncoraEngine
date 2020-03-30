@@ -122,22 +122,23 @@ public:
 		m_BlackShader.reset(new Ancora::Shader(blackVertexSrc, blackFragmentSrc));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Ancora::Timestep ts) override
 	{
+		m_FPS = 1 / ts;
 		if (Ancora::Input::IsKeyPressed(AE_KEY_W))
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * ts;
 		else if (Ancora::Input::IsKeyPressed(AE_KEY_S))
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 
 		if (Ancora::Input::IsKeyPressed(AE_KEY_D))
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * ts;
 		else if (Ancora::Input::IsKeyPressed(AE_KEY_A))
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
 		if (Ancora::Input::IsKeyPressed(AE_KEY_LEFT))
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * ts;
 		else if (Ancora::Input::IsKeyPressed(AE_KEY_RIGHT))
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
 		Ancora::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Ancora::RenderCommand::Clear();
@@ -155,6 +156,9 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Test");
+		ImGui::Text("FPS: %d", m_FPS);
+		ImGui::End();
 	}
 
 	void OnEvent(Ancora::Event& event) override
@@ -169,9 +173,10 @@ private:
 
 	Ancora::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.05f;
+	float m_CameraMoveSpeed = 2.0f;
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 2.0f;
+	float m_CameraRotationSpeed = 90.0f;
+	int m_FPS;
 };
 
 

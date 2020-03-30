@@ -5,6 +5,8 @@
 #include "Ancora/Application.h"
 #include "Ancora/Layer.h"
 
+#include "Ancora/Core/Timestep.h"
+
 #include "Ancora/Input.h"
 #include "Ancora/KeyCodes.h"
 #include "Ancora/MouseButtonCodes.h"
