@@ -8,7 +8,7 @@ class ExampleLayer : public Ancora::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
 		m_VertexArray.reset(Ancora::VertexArray::Create());
 
@@ -144,16 +144,6 @@ public:
 		else if (Ancora::Input::IsKeyPressed(AE_KEY_RIGHT))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
 
-		if (Ancora::Input::IsKeyPressed(AE_KEY_I))
-			m_SquarePosition.y += m_SquareMoveSpeed * ts;
-		else if (Ancora::Input::IsKeyPressed(AE_KEY_K))
-			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
-
-		if (Ancora::Input::IsKeyPressed(AE_KEY_L))
-			m_SquarePosition.x += m_SquareMoveSpeed * ts;
-		else if (Ancora::Input::IsKeyPressed(AE_KEY_J))
-			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
-
 		Ancora::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Ancora::RenderCommand::Clear();
 
@@ -162,10 +152,19 @@ public:
 
 		Ancora::Renderer::BeginScene(m_Camera);
 
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_SquarePosition);
+		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		Ancora::Renderer::Submit(m_Shader, m_VertexArray, transform);
-		Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.17f, y * 0.17f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Ancora::Renderer::Submit(m_Shader, m_VertexArray, transform);
+			}
+		}
+
+		// Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
 
 		Ancora::Renderer::EndScene();
 	}
@@ -193,9 +192,6 @@ private:
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 90.0f;
 	int m_FPS;
-
-	float m_SquareMoveSpeed = 1.0f;
-	glm::vec3 m_SquarePosition;
 };
 
 
