@@ -1,5 +1,7 @@
 #include <Ancora.h>
 
+#include "imgui.h"
+
 class ExampleLayer : public Ancora::Layer
 {
 public:
@@ -8,10 +10,15 @@ public:
 
 	void OnUpdate() override
 	{
-		// AE_INFO("ExampleLayer::Update");
-
 		if (Ancora::Input::IsKeyPressed(AE_KEY_TAB))
 			AE_INFO("Tab key is pressed!");
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnEvent(Ancora::Event& event) override
