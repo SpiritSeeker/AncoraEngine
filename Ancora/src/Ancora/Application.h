@@ -8,14 +8,8 @@
 #include "Ancora/Events/ApplicationEvent.h"
 #include "Ancora/ImGui/ImGuiLayer.h"
 
-#include "Ancora/Renderer/Shader.h"
-#include "Ancora/Renderer/Buffer.h"
-#include "Ancora/Renderer/VertexArray.h"
-
-#include "Ancora/Renderer/OrthographicCamera.h"
-
 namespace  Ancora {
-	class ANCORA_API Application
+	class Application
 	{
 	public:
 		Application();

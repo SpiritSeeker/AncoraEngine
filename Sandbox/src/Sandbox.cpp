@@ -124,10 +124,26 @@ public:
 
 	void OnUpdate() override
 	{
+		if (Ancora::Input::IsKeyPressed(AE_KEY_W))
+			m_CameraPosition.y += m_CameraMoveSpeed;
+		else if (Ancora::Input::IsKeyPressed(AE_KEY_S))
+			m_CameraPosition.y -= m_CameraMoveSpeed;
+
+		if (Ancora::Input::IsKeyPressed(AE_KEY_D))
+			m_CameraPosition.x += m_CameraMoveSpeed;
+		else if (Ancora::Input::IsKeyPressed(AE_KEY_A))
+			m_CameraPosition.x -= m_CameraMoveSpeed;
+
+		if (Ancora::Input::IsKeyPressed(AE_KEY_LEFT))
+			m_CameraRotation += m_CameraRotationSpeed;
+		else if (Ancora::Input::IsKeyPressed(AE_KEY_RIGHT))
+			m_CameraRotation -= m_CameraRotationSpeed;
+
 		Ancora::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Ancora::RenderCommand::Clear();
 
 		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(m_CameraRotation);
 
 		Ancora::Renderer::BeginScene(m_Camera);
 
@@ -143,22 +159,6 @@ public:
 
 	void OnEvent(Ancora::Event& event) override
 	{
-		Ancora::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<Ancora::KeyPressedEvent>(AE_BIND_EVENT_FN(ExampleLayer::OnKeyPressed));
-	}
-private:
-	bool OnKeyPressed(Ancora::KeyPressedEvent& event)
-	{
-		if (event.GetKeyCode() == AE_KEY_W)
-			m_CameraPosition.y += m_CameraSpeed;
-		if (event.GetKeyCode() == AE_KEY_A)
-			m_CameraPosition.x -= m_CameraSpeed;
-		if (event.GetKeyCode() == AE_KEY_S)
-			m_CameraPosition.y -= m_CameraSpeed;
-		if (event.GetKeyCode() == AE_KEY_D)
-			m_CameraPosition.x += m_CameraSpeed;
-
-		return false;
 	}
 private:
 	std::shared_ptr<Ancora::Shader> m_Shader;
@@ -169,7 +169,9 @@ private:
 
 	Ancora::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraSpeed = 0.1f;
+	float m_CameraMoveSpeed = 0.05f;
+	float m_CameraRotation = 0.0f;
+	float m_CameraRotationSpeed = 2.0f;
 };
 
 
