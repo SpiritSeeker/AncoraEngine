@@ -3,7 +3,8 @@
 
 #include "Ancora/Renderer/Renderer.h"
 
-#include "Input.h"
+#include "Ancora/Input.h"
+#include "Ancora/KeyCodes.h"
 
 namespace Ancora {
 
@@ -12,6 +13,7 @@ namespace Ancora {
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
+		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		AE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -75,6 +77,8 @@ namespace Ancora {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
@@ -82,7 +86,7 @@ namespace Ancora {
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -107,12 +111,14 @@ namespace Ancora {
 
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -153,6 +159,7 @@ namespace Ancora {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(OnKeyPressed));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -166,16 +173,13 @@ namespace Ancora {
 	{
 		while (m_Running)
 		{
-			RenderCommand::SetClearColor({0.8f, 0.1f, 0.3f, 1.0f});
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			Renderer::BeginScene(m_Camera);
 
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
-
-			m_BlackShader->Bind();
-			Renderer::Submit(m_TriangleVA);
+			Renderer::Submit(m_Shader, m_VertexArray);
+			Renderer::Submit(m_BlackShader, m_TriangleVA);
 
 			Renderer::EndScene();
 
@@ -195,5 +199,42 @@ namespace Ancora {
 	{
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnKeyPressed(KeyPressedEvent& e)
+	{
+		float step = 0.05f;
+		switch (e.GetKeyCode())
+		{
+			case AE_KEY_W:
+			{
+				glm::vec3 position = m_Camera.GetPosition();
+				m_Camera.SetPosition({ position.x, position.y + step, position.z});
+				return true;
+			}
+
+			case AE_KEY_A:
+			{
+				glm::vec3 position = m_Camera.GetPosition();
+				m_Camera.SetPosition({ position.x - step, position.y, position.z});
+				return true;
+			}
+
+			case AE_KEY_S:
+			{
+				glm::vec3 position = m_Camera.GetPosition();
+				m_Camera.SetPosition({ position.x, position.y - step, position.z});
+				return true;
+			}
+
+			case AE_KEY_D:
+			{
+				glm::vec3 position = m_Camera.GetPosition();
+				m_Camera.SetPosition({ position.x + step, position.y, position.z});
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
