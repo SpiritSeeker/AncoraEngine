@@ -16,17 +16,17 @@ public:
 		m_VertexArray.reset(Ancora::VertexArray::Create());
 
   	float vertices[] = {
-			-0.75f, -0.75f, -1.0f, 0.8f, 0.1f, 0.2f, 1.0f,
-			 0.75f, -0.75f,  0.0f, 0.0f, 0.5f, 0.9f, 1.0f,
-			 0.75f,  0.75f,  1.0f, 0.3f, 0.7f, 0.1f, 1.0f,
-			-0.75f,  0.75f,  0.0f, 0.7f, 0.8f, 0.3f, 1.0f
+			-0.75f, -0.75f,  0.0f, 0.0f, 0.0f,
+			 0.75f, -0.75f,  0.0f, 1.0f, 0.0f,
+			 0.75f,  0.75f,  0.0f, 1.0f, 1.0f,
+			-0.75f,  0.75f,  0.0f, 0.0f, 1.0f
 		};
 
 		Ancora::Ref<Ancora::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Ancora::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Ancora::BufferLayout layout = {
 			{ Ancora::ShaderDataType::Float3, "a_Position" },
-			{ Ancora::ShaderDataType::Float4, "a_Color" }
+			{ Ancora::ShaderDataType::Float2, "a_TexCoord" }
 		};
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
@@ -64,16 +64,12 @@ public:
 			#version 450 core
 
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 
-			out vec4 v_Color;
-
 			void main()
 			{
-				v_Color = a_Color;
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
@@ -82,8 +78,6 @@ public:
 			#version 450 core
 
 			layout(location = 0) out vec4 color;
-
-			in vec4 v_Color;
 
 			uniform vec3 u_Color;
 
@@ -94,6 +88,41 @@ public:
 		)";
 
 		m_Shader.reset(Ancora::Shader::Create(vertexSrc, fragmentSrc));
+
+		std::string textureVertexSrc = R"(
+			#version 450 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string textureFragmentSrc = R"(
+			#version 450 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Ancora::Shader::Create(textureVertexSrc, textureFragmentSrc));
 
 		std::string blackVertexSrc = R"(
 			#version 450 core
@@ -126,6 +155,11 @@ public:
 		)";
 
 		m_BlackShader.reset(Ancora::Shader::Create(blackVertexSrc, blackFragmentSrc));
+
+		m_Texture = Ancora::Texture2D::Create("Sandbox/assets/textures/pic.png");
+
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Ancora::Timestep ts) override
@@ -169,7 +203,11 @@ public:
 			}
 		}
 
-		Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
+		m_Texture->Bind(0);
+		Ancora::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
+
+		// Triangle
+		// Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
 
 		Ancora::Renderer::EndScene();
 	}
@@ -192,8 +230,10 @@ private:
 	Ancora::Ref<Ancora::Shader> m_Shader;
 	Ancora::Ref<Ancora::VertexArray> m_VertexArray;
 
-	Ancora::Ref<Ancora::Shader> m_BlackShader;
+	Ancora::Ref<Ancora::Shader> m_BlackShader, m_TextureShader;
 	Ancora::Ref<Ancora::VertexArray> m_TriangleVA;
+
+	Ancora::Ref<Ancora::Texture2D> m_Texture;
 
 	Ancora::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
@@ -202,7 +242,7 @@ private:
 	float m_CameraRotationSpeed = 90.0f;
 	int m_FPS;
 
-	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.7f };
 };
 
 

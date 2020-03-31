@@ -22,12 +22,7 @@ IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ancora/vendor/imgui"
 IncludeDir["glm"] = "Ancora/vendor/glm"
-
-LibDir = {}
-LibDir["GLFW"] = "Ancora/vendor/GLFW/bin/" .. outputdir .. "/GLFW"
-LibDir["Glad"] = "Ancora/vendor/Glad/bin/" .. outputdir .. "/Glad"
-LibDir["ImGui"] = "Ancora/vendor/imgui/bin/" .. outputdir .. "/ImGui"
-LibDir["Ancora"] = "bin/" .. outputdir .. "/Ancora"
+IncludeDir["stb_image"] = "Ancora/vendor/stb_image"
 
 include "Ancora/vendor/GLFW"
 include "Ancora/vendor/Glad"
@@ -51,6 +46,8 @@ project "Ancora"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -68,7 +65,8 @@ project "Ancora"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links
