@@ -157,6 +157,7 @@ public:
 		m_BlackShader.reset(Ancora::Shader::Create(blackVertexSrc, blackFragmentSrc));
 
 		m_Texture = Ancora::Texture2D::Create("Sandbox/assets/textures/pic.png");
+		m_CloudTexture = Ancora::Texture2D::Create("Sandbox/assets/textures/cloud.png");
 
 		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -206,6 +207,9 @@ public:
 		m_Texture->Bind(0);
 		Ancora::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
 
+		m_CloudTexture->Bind(0);
+		Ancora::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
+
 		// Triangle
 		// Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
 
@@ -234,6 +238,7 @@ private:
 	Ancora::Ref<Ancora::VertexArray> m_TriangleVA;
 
 	Ancora::Ref<Ancora::Texture2D> m_Texture;
+	Ancora::Ref<Ancora::Texture2D> m_CloudTexture;
 
 	Ancora::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
