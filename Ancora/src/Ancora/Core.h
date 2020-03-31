@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef AE_PLATFORM_WINDOWS
 	#ifdef AE_DYNAMIC_LINK
 		#ifdef AE_BUILD_DLL
@@ -28,3 +30,13 @@
 #define BIT(x) (1 << x)
 
 #define AE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Ancora {
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+}

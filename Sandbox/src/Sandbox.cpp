@@ -22,7 +22,7 @@ public:
 			-0.75f,  0.75f,  0.0f, 0.7f, 0.8f, 0.3f, 1.0f
 		};
 
-		std::shared_ptr<Ancora::VertexBuffer> vertexBuffer;
+		Ancora::Ref<Ancora::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Ancora::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Ancora::BufferLayout layout = {
 			{ Ancora::ShaderDataType::Float3, "a_Position" },
@@ -36,7 +36,7 @@ public:
 			2, 3, 0
 		};
 
-		std::shared_ptr<Ancora::IndexBuffer> indexBuffer;
+		Ancora::Ref<Ancora::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Ancora::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -48,7 +48,7 @@ public:
 			 0.0f,  0.5f, 0.0f
 		};
 
-		std::shared_ptr<Ancora::VertexBuffer> triangleVB;
+		Ancora::Ref<Ancora::VertexBuffer> triangleVB;
 		triangleVB.reset(Ancora::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
 		triangleVB->SetLayout({
 			{ Ancora::ShaderDataType::Float3, "a_Position" }
@@ -56,7 +56,7 @@ public:
 		m_TriangleVA->AddVertexBuffer(triangleVB);
 
 		uint32_t triangleIndices[3] = { 0, 1, 2 };
-		std::shared_ptr<Ancora::IndexBuffer> triangleIB;
+		Ancora::Ref<Ancora::IndexBuffer> triangleIB;
 		triangleIB.reset(Ancora::IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t)));
 		m_TriangleVA->SetIndexBuffer(triangleIB);
 
@@ -189,11 +189,11 @@ public:
 	{
 	}
 private:
-	std::shared_ptr<Ancora::Shader> m_Shader;
-	std::shared_ptr<Ancora::VertexArray> m_VertexArray;
+	Ancora::Ref<Ancora::Shader> m_Shader;
+	Ancora::Ref<Ancora::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Ancora::Shader> m_BlackShader;
-	std::shared_ptr<Ancora::VertexArray> m_TriangleVA;
+	Ancora::Ref<Ancora::Shader> m_BlackShader;
+	Ancora::Ref<Ancora::VertexArray> m_TriangleVA;
 
 	Ancora::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
