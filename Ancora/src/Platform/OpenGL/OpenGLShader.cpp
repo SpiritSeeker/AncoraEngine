@@ -86,7 +86,8 @@ namespace Ancora {
   void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
   {
     GLuint program = glCreateProgram();
-    std::vector<GLenum> glShaderIDs(shaderSources.size());
+    std::vector<GLenum> glShaderIDs;
+    glShaderIDs.reserve(shaderSources.size());
     for (auto& kv : shaderSources)
     {
       GLenum shaderType = kv.first;
