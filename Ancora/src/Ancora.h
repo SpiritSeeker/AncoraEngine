@@ -25,6 +25,3 @@
 
 #include "Ancora/Renderer/OrthographicCamera.h"
 // ----------------------------------------------
-
-// ---------------- Entry Point -----------------
-#include "Ancora/Core/EntryPoint.h"
