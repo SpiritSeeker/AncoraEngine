@@ -43,7 +43,7 @@ namespace Ancora {
   std::string OpenGLShader::ReadFile(const std::string& filepath)
   {
     std::string result;
-    std::ifstream in(filepath, std::ios::binary);
+    std::ifstream in(filepath, std::ios::in | std::ios::binary);
     if (in)
     {
       in.seekg(0, std::ios::end);
@@ -86,8 +86,9 @@ namespace Ancora {
   void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
   {
     GLuint program = glCreateProgram();
-    std::vector<GLenum> glShaderIDs;
-    glShaderIDs.reserve(shaderSources.size());
+    AE_CORE_ASSERT(shaderSources.size() <= 2, "Too many shaders to compile!");
+    std::array<GLenum, 2> glShaderIDs;
+    int glShaderIDIndex = 0;
     for (auto& kv : shaderSources)
     {
       GLenum shaderType = kv.first;
@@ -118,7 +119,7 @@ namespace Ancora {
       }
 
       glAttachShader(program, shader);
-      glShaderIDs.push_back(shader);
+      glShaderIDs[glShaderIDIndex++] = shader;
     }
 
     glLinkProgram(program);
