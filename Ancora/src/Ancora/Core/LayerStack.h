@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ancora/Core.h"
+#include "Ancora/Core/Core.h"
 #include "Layer.h"
 
 #include <vector>
@@ -12,7 +12,7 @@ namespace Ancora {
 	public:
 		LayerStack();
 		~LayerStack();
-		
+
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 		void PopLayer(Layer* layer);

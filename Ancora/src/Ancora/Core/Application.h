@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Ancora/Core.h"
+#include "Ancora/Core/Core.h"
 
-#include "Ancora/Window.h"
-#include "Ancora/LayerStack.h"
-#include "Events/Event.h"
+#include "Ancora/Core/Window.h"
+#include "Ancora/Core/LayerStack.h"
+#include "Ancora/Events/Event.h"
 #include "Ancora/Events/ApplicationEvent.h"
 
 #include "Ancora/Core/Timestep.h"

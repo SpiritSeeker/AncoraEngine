@@ -1,10 +1,10 @@
 #include "aepch.h"
 #include "ImGuiLayer.h"
 
-#include "imgui.h" 
+#include "imgui.h"
 #include "ImGuiBuild.h"
 
-#include "Ancora/Application.h"
+#include "Ancora/Core/Application.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -79,7 +79,7 @@ namespace Ancora {
 	void ImGuiLayer::OnImGuiRender()
 	{
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);	
+		ImGui::ShowDemoWindow(&show);
 	}
 
 }

@@ -3,8 +3,8 @@
 
 #include "Ancora/Renderer/Renderer.h"
 
-#include "Ancora/Input.h"
-#include "Ancora/KeyCodes.h"
+#include "Ancora/Core/Input.h"
+#include "Ancora/Core/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
 

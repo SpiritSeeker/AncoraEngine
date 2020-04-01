@@ -1,8 +1,8 @@
 #include "aepch.h"
 #include "OrthographicCameraController.h"
 
-#include "Ancora/Input.h"
-#include "Ancora/KeyCodes.h"
+#include "Ancora/Core/Input.h"
+#include "Ancora/Core/KeyCodes.h"
 
 namespace Ancora {
 

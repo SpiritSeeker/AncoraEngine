@@ -2,15 +2,15 @@
 
 #include "aepch.h"
 
-#include "Ancora/Application.h"
-#include "Ancora/Layer.h"
+#include "Ancora/Core/Application.h"
+#include "Ancora/Core/Layer.h"
 
 #include "Ancora/Core/Timestep.h"
 
-#include "Ancora/Input.h"
-#include "Ancora/KeyCodes.h"
-#include "Ancora/MouseButtonCodes.h"
-#include "Ancora/OrthographicCameraController.h"
+#include "Ancora/Core/Input.h"
+#include "Ancora/Core/KeyCodes.h"
+#include "Ancora/Core/MouseButtonCodes.h"
+#include "Ancora/Renderer/OrthographicCameraController.h"
 
 #include "Ancora/ImGui/ImGuiLayer.h"
 
@@ -27,4 +27,4 @@
 // ----------------------------------------------
 
 // ---------------- Entry Point -----------------
-#include "Ancora/EntryPoint.h"
+#include "Ancora/Core/EntryPoint.h"

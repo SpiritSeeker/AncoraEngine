@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ancora/Core.h"
+#include "Ancora/Core/Core.h"
 
 namespace Ancora {
 
@@ -26,7 +26,7 @@ namespace Ancora {
 #ifdef AE_PLATFORM_LINUX
 	#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
 									virtual EventType GetEventType() const override { return GetStaticType(); }\
-									virtual const char* GetName() const override { return #type; }	
+									virtual const char* GetName() const override { return #type; }
 #elif AE_PLATFORM_WINDOWS
 	#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
 									virtual EventType GetEventType() const override { return GetStaticType(); }\
