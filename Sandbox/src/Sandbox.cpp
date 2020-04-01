@@ -87,9 +87,9 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Ancora::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = Ancora::Shader::Create("SquareTiles", vertexSrc, fragmentSrc);
 
-		m_TextureShader.reset(Ancora::Shader::Create("Sandbox/assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("Sandbox/assets/shaders/Texture.glsl");
 
 		std::string blackVertexSrc = R"(
 			#version 450 core
@@ -121,13 +121,13 @@ public:
 			}
 		)";
 
-		m_BlackShader.reset(Ancora::Shader::Create(blackVertexSrc, blackFragmentSrc));
+		m_BlackShader = Ancora::Shader::Create("BlackTriangle", blackVertexSrc, blackFragmentSrc);
 
 		m_Texture = Ancora::Texture2D::Create("Sandbox/assets/textures/pic.png");
 		m_CloudTexture = Ancora::Texture2D::Create("Sandbox/assets/textures/cloud.png");
 
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Ancora::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Ancora::Timestep ts) override
@@ -171,11 +171,13 @@ public:
 			}
 		}
 
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind(0);
-		Ancora::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
+		Ancora::Renderer::Submit(textureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
 
 		m_CloudTexture->Bind(0);
-		Ancora::Renderer::Submit(m_TextureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
+		Ancora::Renderer::Submit(textureShader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.9f)));
 
 		// Triangle
 		// Ancora::Renderer::Submit(m_BlackShader, m_TriangleVA);
@@ -198,10 +200,11 @@ public:
 	{
 	}
 private:
+	Ancora::ShaderLibrary m_ShaderLibrary;
 	Ancora::Ref<Ancora::Shader> m_Shader;
 	Ancora::Ref<Ancora::VertexArray> m_VertexArray;
 
-	Ancora::Ref<Ancora::Shader> m_BlackShader, m_TextureShader;
+	Ancora::Ref<Ancora::Shader> m_BlackShader;
 	Ancora::Ref<Ancora::VertexArray> m_TriangleVA;
 
 	Ancora::Ref<Ancora::Texture2D> m_Texture;
