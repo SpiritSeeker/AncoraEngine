@@ -31,7 +31,8 @@ void Sandbox2D::OnUpdate(Ancora::Timestep ts)
 	Ancora::RenderCommand::Clear();
 
 	Ancora::Renderer2D::BeginScene(m_CameraController.GetCamera());
-  Ancora::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+  Ancora::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+  Ancora::Renderer2D::DrawQuad({ 1.0f, -0.25f }, { 0.95f, 0.35f }, m_SquareColor);
 	Ancora::Renderer2D::EndScene();
 }
 
