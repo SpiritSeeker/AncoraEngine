@@ -20,6 +20,8 @@ private:
   Ancora::Ref<Ancora::VertexArray> m_VertexArray;
   Ancora::Ref<Ancora::Shader> m_Shader;
 
+  Ancora::Ref<Ancora::Texture2D> m_Texture;
+
   int m_FPS;
   glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 };
