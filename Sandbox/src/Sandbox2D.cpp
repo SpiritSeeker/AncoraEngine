@@ -1,7 +1,5 @@
 #include "Sandbox2D.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
 #include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,7 +12,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-  
+
 }
 
 void Sandbox2D::OnDetach()
@@ -35,9 +33,6 @@ void Sandbox2D::OnUpdate(Ancora::Timestep ts)
 	Ancora::Renderer2D::BeginScene(m_CameraController.GetCamera());
   Ancora::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 	Ancora::Renderer2D::EndScene();
-
-  // std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->Bind();
-  // std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->UploadUniformFloat4("u_Color", m_SquareColor);
 }
 
 void Sandbox2D::OnImGuiRender()

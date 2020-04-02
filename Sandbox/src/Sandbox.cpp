@@ -1,8 +1,6 @@
 #include <Ancora.h>
 #include <Ancora/Core/EntryPoint.h>
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
 #include "imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -129,8 +127,8 @@ public:
 		m_Texture = Ancora::Texture2D::Create("Sandbox/assets/textures/pic.png");
 		m_CloudTexture = Ancora::Texture2D::Create("Sandbox/assets/textures/cloud.png");
 
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Ancora::Timestep ts) override
@@ -148,8 +146,8 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<Ancora::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_SquareColor);
+		m_Shader->Bind();
+		m_Shader->SetFloat3("u_Color", m_SquareColor);
 
 		for (int y = 0; y < 20; y++)
 		{
