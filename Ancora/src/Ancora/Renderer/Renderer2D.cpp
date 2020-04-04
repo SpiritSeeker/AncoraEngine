@@ -148,4 +148,6 @@ namespace Ancora {
     RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
   }
 
+
+
 }
