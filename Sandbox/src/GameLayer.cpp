@@ -30,7 +30,7 @@ void GameLayer::OnUpdate(Ancora::Timestep ts)
 
   // (^) See how this looks and maybe change it to be at the center of the road and follow the player along the road
   const auto& playerPos = m_Level.GetPlayer().GetPosition();
-  m_Camera->SetPosition({ playerPos.x, playerPos.y, playerPos.z + 2.0f });
+  m_Camera->SetView({ playerPos.x, playerPos.y, playerPos.z + 2.0f });
 
   switch (m_State)
   {

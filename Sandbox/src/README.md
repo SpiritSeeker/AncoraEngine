@@ -28,7 +28,6 @@ Please try to follow the above conventions for comments and naming.
 ## Compiling
 
 The application, in its present state, will not compile successfully. The list of things to be added in the engine for the game to compile successfully is given below:
- * PerspectiveCamera
  * Renderer3D
      - CubeMap
      - Lighting Objects
