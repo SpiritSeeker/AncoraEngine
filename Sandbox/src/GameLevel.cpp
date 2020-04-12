@@ -40,7 +40,7 @@ void GameLevel::OnRender()
   Ancora::Renderer3D::CubeMap(m_CubeMap);
 }
 
-void Reset()
+void GameLevel::Reset()
 {
   m_GameOver = false;
 

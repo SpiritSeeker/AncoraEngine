@@ -6,6 +6,7 @@
 #include "Ancora/Core/Layer.h"
 
 #include "Ancora/Core/Timestep.h"
+#include "Ancora/Core/Random.h"
 
 #include "Ancora/Core/Input.h"
 #include "Ancora/Core/KeyCodes.h"

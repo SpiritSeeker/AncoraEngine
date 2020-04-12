@@ -32,5 +32,5 @@ private:
     Play = 0, Menu = 1, GameOver = 2
   };
 
-  GameState m_State = GameState::MainMenu;
+  GameState m_State = GameState::Menu;
 };

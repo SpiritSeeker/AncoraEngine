@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Ancora.h>
+
 // (#) Include all the implementations of GameObjects here.
 
 class GameLevel
@@ -7,7 +9,7 @@ class GameLevel
 public:
   void Init();
 
-  void OnUpdate(Ancora::Timestep ts)
+  void OnUpdate(Ancora::Timestep ts);
   void OnRender();
 
   bool IsGameOver() const { return m_GameOver; }
@@ -32,4 +34,4 @@ private:
   Ancora::Ref<Ancora::CubeMap> m_CubeMap;
 
   bool m_GameOver = false;
-}
+};

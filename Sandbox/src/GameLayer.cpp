@@ -6,7 +6,6 @@ GameLayer::GameLayer()
   auto& window = Ancora::Application::Get().GetWindow();
   CreateCamera(window.GetWidth(), window.GetHeight());
 
-  // (*) Add RNG (and fix x64 vs x86 compatibility)
   Ancora::Random::Init();
 }
 
@@ -86,5 +85,5 @@ void GameLayer::CreateCamera(uint32_t width, uint32_t height)
   float nearPlane = 1.0f;
   float farPlane = 1000.0f;
 
-  m_Camera = Ancora::CreateScope<PerspectiveCamera>(fov, aspectRatio, nearPlane, farPlane);
+  m_Camera = Ancora::CreateScope<Ancora::PerspectiveCamera>(fov, aspectRatio, nearPlane, farPlane);
 }
