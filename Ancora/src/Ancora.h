@@ -18,6 +18,7 @@
 // ------------------ Renderer ------------------
 #include "Ancora/Renderer/Renderer.h"
 #include "Ancora/Renderer/Renderer2D.h"
+#include "Ancora/Renderer/Renderer3D.h"
 #include "Ancora/Renderer/RenderCommand.h"
 
 #include "Ancora/Renderer/Buffer.h"

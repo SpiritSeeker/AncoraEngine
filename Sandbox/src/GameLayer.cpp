@@ -45,8 +45,7 @@ void GameLayer::OnUpdate(Ancora::Timestep ts)
   Ancora::RenderCommand::SetClearColor({ 0.8f, 0.5f, 0.3f, 1.0f });
   Ancora::RenderCommand::Clear();
 
-  // (*) Change params to BIT
-  Ancora::Renderer3D::BeginScene(*m_Camera, AE_ENABLE_CUBEMAP, AE_ENABLE_LIGHTING);
+  Ancora::Renderer3D::BeginScene(*m_Camera);
   m_Level.OnRender();
   Ancora::Renderer3D::EndScene();
 }
