@@ -3,20 +3,33 @@
 // Initial setup
 void GameLevel::Init()
 {
+  // Load environment
+  // (^) Make environment
+  std::array<std::string, 6> textureFaces = {
+    "Sandbox/assets/cubemaps/tears_of_steel/px.png",
+    "Sandbox/assets/cubemaps/tears_of_steel/nx.png",
+    "Sandbox/assets/cubemaps/tears_of_steel/py.png",
+    "Sandbox/assets/cubemaps/tears_of_steel/ny.png",
+    "Sandbox/assets/cubemaps/tears_of_steel/pz.png",
+    "Sandbox/assets/cubemaps/tears_of_steel/nz.png"
+  };
+
+  m_CubeMap = Ancora::CubeMap::Create(textureFaces);
+
   // (#) Call LoadAssets for every object.
-  m_Player.LoadAssets();
+  // ($) m_Player.LoadAssets();
 }
 
 void GameLevel::OnUpdate(Ancora::Timestep ts)
 {
   // (#) Call OnUpdate for every object.
-  m_Player.OnUpdate(ts);
+  // ($) m_Player.OnUpdate(ts);
 
   // (#) If the player collides with anything.
   // (#) All Collisions tests to be called here.
-  if (CollisionTest())
-  {
-  }
+  // ($) if (CollisionTest())
+  // {
+  // }
 
   // (#) Check if player crossed finish line here.
 
@@ -25,7 +38,7 @@ void GameLevel::OnUpdate(Ancora::Timestep ts)
 void GameLevel::OnRender()
 {
   // Render the player
-  m_Player.OnRender();
+  // ($) m_Player.OnRender();
 
   // (#) Render other bikers
 
@@ -34,10 +47,10 @@ void GameLevel::OnRender()
   // (#) Render pedestrians (if any)
 
   // Render the road
-  m_RoadMap.OnRender();
+  // ($) m_RoadMap.OnRender();
 
   // (*) Render the environment
-  Ancora::Renderer3D::CubeMap(m_CubeMap);
+  Ancora::Renderer3D::SkyBox(m_CubeMap, glm::vec3(0.0f), glm::vec3(100.0f));
 }
 
 void GameLevel::Reset()
@@ -45,7 +58,7 @@ void GameLevel::Reset()
   m_GameOver = false;
 
   // Reset the player
-  m_Player.Reset();
+  // ($) m_Player.Reset();
 
   // (#) Reset all other objects.
 }

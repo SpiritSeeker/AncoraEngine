@@ -29,9 +29,8 @@ Please try to follow the above conventions for comments and naming.
 
 The application, in its present state, will not compile successfully. The list of things to be added in the engine for the game to compile successfully is given below:
  * Renderer3D
-     - CubeMap
      - Lighting Objects
      - Single Shader Rendering
  * Model Loader
 
-_* This file will be updated everytime a feature is implemented in the engine._
+_* This file will be updated every time a feature is implemented in the engine._

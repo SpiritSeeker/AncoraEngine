@@ -15,6 +15,7 @@ namespace Ancora {
     Ref<VertexBuffer> QuadVertexBuffer;
     Ref<IndexBuffer> QuadIndexBuffer;
     Ref<Shader> QuadShader;
+    Ref<Shader> CubeMapShader;
   };
 
   static Renderer3DStorage s_Data;
@@ -24,15 +25,15 @@ namespace Ancora {
     s_Data.QuadVertexArray = VertexArray::Create();
 
     float vertices[] = {
-      -1.0f, -1.0f,  1.0f,
-       1.0f, -1.0f,  1.0f,
-       1.0f,  1.0f,  1.0f,
-      -1.0f,  1.0f,  1.0f,
+      -0.5f, -0.5f,  0.5f,
+       0.5f, -0.5f,  0.5f,
+       0.5f,  0.5f,  0.5f,
+      -0.5f,  0.5f,  0.5f,
 
-       1.0f,  1.0f, -1.0f,
-      -1.0f,  1.0f, -1.0f,
-      -1.0f, -1.0f, -1.0f,
-       1.0f, -1.0f, -1.0f
+       0.5f,  0.5f, -0.5f,
+      -0.5f,  0.5f, -0.5f,
+      -0.5f, -0.5f, -0.5f,
+       0.5f, -0.5f, -0.5f
     };
     s_Data.QuadVertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
     BufferLayout layout = {
@@ -53,6 +54,7 @@ namespace Ancora {
     s_Data.QuadVertexArray->SetIndexBuffer(s_Data.QuadIndexBuffer);
 
     s_Data.QuadShader = Shader::Create("Sandbox/assets/shaders/FlatColor.glsl");
+    s_Data.CubeMapShader = Shader::Create("Sandbox/assets/shaders/CubeMap.glsl");
   }
 
   void Renderer3D::Shutdown()
@@ -63,10 +65,23 @@ namespace Ancora {
   {
     s_Data.QuadShader->Bind();
     s_Data.QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+    s_Data.CubeMapShader->Bind();
+    s_Data.CubeMapShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
   }
 
   void Renderer3D::EndScene()
   {
+  }
+
+  void Renderer3D::SkyBox(Ref<CubeMap> cubeMap, const glm::vec3& position, const glm::vec3& size)
+  {
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), size);
+    s_Data.CubeMapShader->SetMat4("u_Transform", transform);
+
+    cubeMap->Bind(0);
+    s_Data.CubeMapShader->SetInt("u_Skybox", 0);
+
+    RenderCommand::DrawIndexed(s_Data.QuadVertexArray);
   }
 
   void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)

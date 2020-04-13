@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PerspectiveCamera.h"
+#include "Texture.h"
 
 namespace Ancora {
 
@@ -13,6 +14,7 @@ namespace Ancora {
     static void BeginScene(const PerspectiveCamera& camera);
     static void EndScene();
 
+    static void SkyBox(Ref<CubeMap> cubeMap, const glm::vec3& position, const glm::vec3& size);
     static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color);
   };
 

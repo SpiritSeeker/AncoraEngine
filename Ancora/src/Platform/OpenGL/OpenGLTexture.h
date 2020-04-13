@@ -26,4 +26,19 @@ namespace Ancora {
     GLenum m_InternalFormat, m_DataFormat;
   };
 
+  class OpenGLCubeMap : public CubeMap
+  {
+  public:
+    OpenGLCubeMap(const std::array<std::string, 6>& cubePaths);
+    virtual ~OpenGLCubeMap();
+
+    virtual uint32_t GetSize() const override { return m_Size; }
+
+    virtual void Bind(uint32_t slot = 0) const override;
+  private:
+    uint32_t m_Size;
+    uint32_t m_RendererID;
+    GLenum m_InternalFormat, m_DataFormat;
+  };
+
 }
