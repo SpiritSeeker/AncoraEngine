@@ -6,6 +6,13 @@
 namespace Ancora {
 
   // -------------------------- VertexBuffer --------------------------
+  OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+  {
+    glCreateBuffers(1, &m_RendererID);
+    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+    glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+  }
+
   OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
   {
     glCreateBuffers(1, &m_RendererID);
@@ -28,7 +35,20 @@ namespace Ancora {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
+  void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+  {
+    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+  }
+
   // -------------------------- IndexBuffer ---------------------------
+  OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t count)
+  {
+    glCreateBuffers(1, &m_RendererID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+  }
+
   OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
    : m_Count(count)
   {
@@ -50,6 +70,12 @@ namespace Ancora {
   void OpenGLIndexBuffer::Unbind() const
   {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+  }
+
+  void OpenGLIndexBuffer::SetData(const void* data, uint32_t count)
+  {
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), data);
   }
 
 }

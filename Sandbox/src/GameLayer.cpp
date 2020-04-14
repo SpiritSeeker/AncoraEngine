@@ -11,7 +11,7 @@ GameLayer::GameLayer()
 
 void GameLayer::OnAttach()
 {
-  m_Level.Init(m_Camera);
+  m_Level.Init();
 }
 
 void GameLayer::OnDetach()
@@ -83,4 +83,5 @@ void GameLayer::CreateCamera(uint32_t width, uint32_t height)
   float farPlane = 1000.0f;
 
   m_Camera = Ancora::CreateRef<Ancora::PerspectiveCamera>(fov, aspectRatio, nearPlane, farPlane);
+  m_Level.UpdateCamera(m_Camera);
 }

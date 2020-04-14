@@ -8,13 +8,15 @@
 class GameLevel
 {
 public:
-  void Init(const Ancora::Ref<Ancora::PerspectiveCamera>& camera);
+  void Init();
 
   void OnUpdate(Ancora::Timestep ts);
   void OnRender();
 
   bool IsGameOver() const { return m_GameOver; }
   void Reset();
+
+  void UpdateCamera(const Ancora::Ref<Ancora::PerspectiveCamera>& camera) { m_SceneData.Camera = camera; }
 
   // ($) Player& GetPlayer() { return m_Player; }
 private:

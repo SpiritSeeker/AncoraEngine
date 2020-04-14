@@ -3,6 +3,7 @@
 #include "PerspectiveCamera.h"
 #include "Light.h"
 #include "Texture.h"
+#include "Model3D.h"
 
 namespace Ancora {
 

@@ -1,26 +1,26 @@
 #include "GameLevel.h"
 
 // Initial setup
-void GameLevel::Init(const Ancora::Ref<Ancora::PerspectiveCamera>& camera)
+void GameLevel::Init()
 {
   // Load environment
   // (^) Make environment
-  std::array<std::string, 6> textureFaces = {
-    "Sandbox/assets/cubemaps/tears_of_steel/px.png",
-    "Sandbox/assets/cubemaps/tears_of_steel/nx.png",
-    "Sandbox/assets/cubemaps/tears_of_steel/py.png",
-    "Sandbox/assets/cubemaps/tears_of_steel/ny.png",
-    "Sandbox/assets/cubemaps/tears_of_steel/pz.png",
-    "Sandbox/assets/cubemaps/tears_of_steel/nz.png"
-  };
+  // std::array<std::string, 6> textureFaces = {
+  //   "Sandbox/assets/cubemaps/palermo_square/px.png",
+  //   "Sandbox/assets/cubemaps/palermo_square/nx.png",
+  //   "Sandbox/assets/cubemaps/palermo_square/py.png",
+  //   "Sandbox/assets/cubemaps/palermo_square/ny.png",
+  //   "Sandbox/assets/cubemaps/palermo_square/pz.png",
+  //   "Sandbox/assets/cubemaps/palermo_square/nz.png"
+  // };
 
   m_CubeMap = Ancora::CubeMap::Create(textureFaces);
 
   // (#) Call LoadAssets for every object.
   // ($) m_Player.LoadAssets();
 
-  // Load camera
-  m_SceneData.Camera = camera;
+  // Load lights
+  m_SceneData.DirLight = Ancora::Light::CreateDirectionalLight(glm::vec3(1.0f, -1.0f, 1.0f));
 }
 
 void GameLevel::OnUpdate(Ancora::Timestep ts)
