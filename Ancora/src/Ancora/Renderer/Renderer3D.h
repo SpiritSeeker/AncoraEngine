@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PerspectiveCamera.h"
+#include "Light.h"
 #include "Texture.h"
 
 namespace Ancora {
@@ -8,6 +9,7 @@ namespace Ancora {
   struct Renderer3DSceneData
   {
     Ref<PerspectiveCamera> Camera;
+    Ref<DirectionalLight> DirLight;
   };
 
   class Renderer3D

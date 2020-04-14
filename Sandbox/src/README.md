@@ -4,9 +4,9 @@
 
 The basic structure is as follows:
  * Sandbox.cpp is the entry point to the application.
- * It has a GameLayer which is incharge of keeping track of the game status and UI. GameLayer has a GameLevel object in it which is the actual game logic.
+ * It has a GameLayer which is in-charge of keeping track of the game status and UI. GameLayer has a GameLevel object in it which is the actual game logic.
  * The GameLevel class has all the game objects (classes derived from GameObject) and uses them to decide how each game object is to be updated.
- * The GameObject implementations also have their own OnUpdate which allows them to update their parameters over time. This can be considered as the free state behaviour when no other objects interact with it.
+ * The GameObject implementations also have their own OnUpdate which allows them to update their parameters over time. This can be considered as the free state behavior when no other objects interact with it.
  * Every object also has an OnRender which determines how the object should be displayed onto the screen.
 
 ## Conventions
@@ -29,7 +29,6 @@ Please try to follow the above conventions for comments and naming.
 
 The application, in its present state, will not compile successfully. The list of things to be added in the engine for the game to compile successfully is given below:
  * Renderer3D
-     - Lighting Objects
      - Single Shader Rendering
  * Model Loader
 
