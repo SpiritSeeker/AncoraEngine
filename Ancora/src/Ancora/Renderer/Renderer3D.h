@@ -5,13 +5,18 @@
 
 namespace Ancora {
 
+  struct Renderer3DSceneData
+  {
+    Ref<PerspectiveCamera> Camera;
+  };
+
   class Renderer3D
   {
   public:
     static void Init();
     static void Shutdown();
 
-    static void BeginScene(const PerspectiveCamera& camera);
+    static void BeginScene(const Renderer3DSceneData& sceneData);
     static void EndScene();
 
     static void SkyBox(Ref<CubeMap> cubeMap, const glm::vec3& position, const glm::vec3& size);

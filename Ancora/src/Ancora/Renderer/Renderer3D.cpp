@@ -61,12 +61,12 @@ namespace Ancora {
   {
   }
 
-  void Renderer3D::BeginScene(const PerspectiveCamera& camera)
+  void Renderer3D::BeginScene(const Renderer3DSceneData& sceneData)
   {
     s_Data.QuadShader->Bind();
-    s_Data.QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+    s_Data.QuadShader->SetMat4("u_ViewProjection", sceneData.Camera->GetViewProjectionMatrix());
     s_Data.CubeMapShader->Bind();
-    s_Data.CubeMapShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+    s_Data.CubeMapShader->SetMat4("u_ViewProjection", sceneData.Camera->GetViewProjectionMatrix());
   }
 
   void Renderer3D::EndScene()

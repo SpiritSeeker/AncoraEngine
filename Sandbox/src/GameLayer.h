@@ -20,7 +20,7 @@ private:
   bool OnMouseButtonPressed(Ancora::MouseButtonPressedEvent& e);
   bool OnWindowResize(Ancora::WindowResizeEvent& e);
 private:
-  Ancora::Scope<Ancora::PerspectiveCamera> m_Camera;
+  Ancora::Ref<Ancora::PerspectiveCamera> m_Camera;
   GameLevel m_Level;
   int m_FPS;
 

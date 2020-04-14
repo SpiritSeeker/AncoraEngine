@@ -11,7 +11,7 @@ GameLayer::GameLayer()
 
 void GameLayer::OnAttach()
 {
-  m_Level.Init();
+  m_Level.Init(m_Camera);
 }
 
 void GameLayer::OnDetach()
@@ -45,9 +45,7 @@ void GameLayer::OnUpdate(Ancora::Timestep ts)
   Ancora::RenderCommand::SetClearColor({ 0.8f, 0.5f, 0.3f, 1.0f });
   Ancora::RenderCommand::Clear();
 
-  Ancora::Renderer3D::BeginScene(*m_Camera);
   m_Level.OnRender();
-  Ancora::Renderer3D::EndScene();
 }
 
 void GameLayer::OnImGuiRender()
@@ -84,5 +82,5 @@ void GameLayer::CreateCamera(uint32_t width, uint32_t height)
   float nearPlane = 1.0f;
   float farPlane = 1000.0f;
 
-  m_Camera = Ancora::CreateScope<Ancora::PerspectiveCamera>(fov, aspectRatio, nearPlane, farPlane);
+  m_Camera = Ancora::CreateRef<Ancora::PerspectiveCamera>(fov, aspectRatio, nearPlane, farPlane);
 }

@@ -1,7 +1,7 @@
 #include "GameLevel.h"
 
 // Initial setup
-void GameLevel::Init()
+void GameLevel::Init(const Ancora::Ref<Ancora::PerspectiveCamera>& camera)
 {
   // Load environment
   // (^) Make environment
@@ -18,6 +18,9 @@ void GameLevel::Init()
 
   // (#) Call LoadAssets for every object.
   // ($) m_Player.LoadAssets();
+
+  // Load camera
+  m_SceneData.Camera = camera;
 }
 
 void GameLevel::OnUpdate(Ancora::Timestep ts)
@@ -37,6 +40,8 @@ void GameLevel::OnUpdate(Ancora::Timestep ts)
 
 void GameLevel::OnRender()
 {
+  Ancora::Renderer3D::BeginScene(m_SceneData);
+
   // Render the player
   // ($) m_Player.OnRender();
 
@@ -51,6 +56,8 @@ void GameLevel::OnRender()
 
   // (*) Render the environment
   Ancora::Renderer3D::SkyBox(m_CubeMap, glm::vec3(0.0f), glm::vec3(100.0f));
+
+  Ancora::Renderer3D::EndScene();
 }
 
 void GameLevel::Reset()

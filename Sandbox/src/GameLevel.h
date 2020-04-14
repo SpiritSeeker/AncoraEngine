@@ -8,7 +8,7 @@
 class GameLevel
 {
 public:
-  void Init();
+  void Init(const Ancora::Ref<Ancora::PerspectiveCamera>& camera);
 
   void OnUpdate(Ancora::Timestep ts);
   void OnRender();
@@ -33,6 +33,9 @@ private:
   // CubeMap for the environment
   // (*) Implement CubeMap sampling
   Ancora::Ref<Ancora::CubeMap> m_CubeMap;
+
+  // Scene data for rendering
+  Ancora::Renderer3DSceneData m_SceneData;
 
   bool m_GameOver = false;
 };
