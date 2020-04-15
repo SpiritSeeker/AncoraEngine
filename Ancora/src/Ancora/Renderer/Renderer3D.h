@@ -24,6 +24,8 @@ namespace Ancora {
 
     static void SkyBox(Ref<CubeMap> cubeMap, const glm::vec3& position, const glm::vec3& size);
     static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color);
+    static void DrawModel(Ref<Model3D> model, const glm::mat4& transform);
+    static void DrawModel(Ref<Model3D> model, const glm::mat4& transform, const glm::vec4& color);
   };
 
 }

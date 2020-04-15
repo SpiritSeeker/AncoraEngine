@@ -23,10 +23,12 @@ IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ancora/vendor/imgui"
 IncludeDir["glm"] = "Ancora/vendor/glm"
 IncludeDir["stb_image"] = "Ancora/vendor/stb_image"
+IncludeDir["assimp"] = "Ancora/vendor/assimp/include"
 
 include "Ancora/vendor/GLFW"
 include "Ancora/vendor/Glad"
 include "Ancora/vendor/imgui"
+include "Ancora/vendor/assimp"
 
 project "Ancora"
 	location "Ancora"
@@ -66,14 +68,16 @@ project "Ancora"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.assimp}"
 	}
 
 	links
 	{
 		"GLFW",
 		"Glad",
-		"ImGui"
+		"ImGui",
+		"assimp"
 	}
 
 	filter "system:linux"
@@ -112,7 +116,7 @@ project "Ancora"
 
 		links
 		{
-			"libopengl32.lib"
+			"opengl32.lib"
 		}
 
 		files
@@ -170,12 +174,14 @@ project "Sandbox"
 		"Ancora/vendor/spdlog/include",
 		"Ancora/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.assimp}"
 	}
 
 	links
 	{
-		"Ancora"
+		"Ancora",
+		"assimp"
 	}
 
 	filter "system:linux"

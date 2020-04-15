@@ -33,7 +33,6 @@ private:
   // ($) std::vector<Pedestrians> m_Pedestrians;
 
   // CubeMap for the environment
-  // (*) Implement CubeMap sampling
   Ancora::Ref<Ancora::CubeMap> m_CubeMap;
 
   // Scene data for rendering

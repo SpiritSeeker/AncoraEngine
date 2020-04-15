@@ -6,12 +6,12 @@ void GameLevel::Init()
   // Load environment
   // (^) Make environment
   // std::array<std::string, 6> textureFaces = {
-  //   "Sandbox/assets/cubemaps/palermo_square/px.png",
-  //   "Sandbox/assets/cubemaps/palermo_square/nx.png",
-  //   "Sandbox/assets/cubemaps/palermo_square/py.png",
-  //   "Sandbox/assets/cubemaps/palermo_square/ny.png",
-  //   "Sandbox/assets/cubemaps/palermo_square/pz.png",
-  //   "Sandbox/assets/cubemaps/palermo_square/nz.png"
+  //   "Sandbox/assets/cubemaps/tears_of_steel/px.png",
+  //   "Sandbox/assets/cubemaps/tears_of_steel/nx.png",
+  //   "Sandbox/assets/cubemaps/tears_of_steel/py.png",
+  //   "Sandbox/assets/cubemaps/tears_of_steel/ny.png",
+  //   "Sandbox/assets/cubemaps/tears_of_steel/pz.png",
+  //   "Sandbox/assets/cubemaps/tears_of_steel/nz.png"
   // };
 
   m_CubeMap = Ancora::CubeMap::Create(textureFaces);
@@ -54,7 +54,7 @@ void GameLevel::OnRender()
   // Render the road
   // ($) m_RoadMap.OnRender();
 
-  // (*) Render the environment
+  // Render the environment
   Ancora::Renderer3D::SkyBox(m_CubeMap, glm::vec3(0.0f), glm::vec3(100.0f));
 
   Ancora::Renderer3D::EndScene();

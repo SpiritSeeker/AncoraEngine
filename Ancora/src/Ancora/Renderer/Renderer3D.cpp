@@ -228,4 +228,108 @@ namespace Ancora {
     RenderCommand::DrawIndexed(s_Data.QuadVertexArray, 36);
   }
 
+  void Renderer3D::DrawModel(Ref<Model3D> model, const glm::mat4& transform)
+  {
+    s_Data.LightingShader->Bind();
+    s_Data.LightingShader->SetMat4("u_Transform", transform);
+
+    s_Data.LightingShader->SetInt("u_Material.diffuse", 1);
+    s_Data.LightingShader->SetInt("u_Material.specular", 0);
+    s_Data.LightingShader->SetFloat("u_Material.shininess", 32.0f);
+
+    for (auto& mesh : model->GetMesh())
+    {
+      s_Data.WhiteTexture->Bind(0);
+      for (uint32_t i = 0; i < mesh.DiffuseTextures.size(); i++)
+        mesh.DiffuseTextures[i]->Bind(1);
+      for (uint32_t i = 0; i < mesh.SpecularTextures.size(); i++)
+        mesh.SpecularTextures[i]->Bind(0);
+
+      if (mesh.Vertices.size() > s_Data.MaxVertices)
+      {
+        uint32_t count = mesh.Vertices.size();
+        uint32_t numIter = 0;
+        while (count > s_Data.MaxVertices)
+        {
+          std::vector<VertexData3D> data(mesh.Vertices.begin() + numIter * s_Data.MaxVertices, mesh.Vertices.begin() + (numIter + 1) * s_Data.MaxVertices);
+          std::vector<uint32_t> index(mesh.Indices.begin() + numIter * s_Data.MaxIndices, mesh.Indices.begin() + (numIter + 1) * s_Data.MaxIndices);
+          numIter++;
+          count -= s_Data.MaxVertices;
+          s_Data.QuadVertexBuffer->SetData(&data[0], s_Data.MaxVertices * sizeof(VertexData3D));
+          s_Data.QuadIndexBuffer->SetData(&index[0], s_Data.MaxIndices);
+          RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.MaxIndices);
+        }
+
+        std::vector<VertexData3D> data(mesh.Vertices.begin() + numIter * s_Data.MaxVertices, mesh.Vertices.end());
+        std::vector<uint32_t> index(mesh.Indices.begin() + numIter * s_Data.MaxIndices, mesh.Indices.end());
+        s_Data.QuadVertexBuffer->SetData(&data[0], count * sizeof(VertexData3D));
+        s_Data.QuadIndexBuffer->SetData(&index[0], count);
+        RenderCommand::DrawIndexed(s_Data.QuadVertexArray, count);
+      }
+
+      else
+      {
+        s_Data.QuadVertexBuffer->SetData(&mesh.Vertices[0], mesh.Vertices.size() * sizeof(VertexData3D));
+        s_Data.QuadIndexBuffer->SetData(&mesh.Indices[0], mesh.Indices.size());
+        RenderCommand::DrawIndexed(s_Data.QuadVertexArray, mesh.Indices.size());
+      }
+    }
+  }
+
+  void Renderer3D::DrawModel(Ref<Model3D> model, const glm::mat4& transform, const glm::vec4& color)
+  {
+    s_Data.LightingShader->Bind();
+    s_Data.LightingShader->SetMat4("u_Transform", transform);
+
+    s_Data.LightingShader->SetInt("u_Material.diffuse", 1);
+    s_Data.LightingShader->SetInt("u_Material.specular", 0);
+    s_Data.LightingShader->SetFloat("u_Material.shininess", 32.0f);
+
+    for (auto& mesh : model->GetMesh())
+    {
+      s_Data.WhiteTexture->Bind(0);
+
+      uint32_t colorTextureData = 0;
+      for (int i = 0; i < 4; i++)
+      {
+        colorTextureData *= 256;
+        colorTextureData += (int)(color[3-i] * 255);
+      }
+      s_Data.ColorTexture->SetData(&colorTextureData, sizeof(uint32_t));
+      s_Data.ColorTexture->Bind(1);
+
+      for (uint32_t i = 0; i < mesh.SpecularTextures.size(); i++)
+        mesh.SpecularTextures[i]->Bind(0);
+
+      if (mesh.Vertices.size() > s_Data.MaxVertices)
+      {
+        uint32_t count = mesh.Vertices.size();
+        uint32_t numIter = 0;
+        while (count > s_Data.MaxVertices)
+        {
+          std::vector<VertexData3D> data(mesh.Vertices.begin() + numIter * s_Data.MaxVertices, mesh.Vertices.begin() + (numIter + 1) * s_Data.MaxVertices);
+          std::vector<uint32_t> index(mesh.Indices.begin() + numIter * s_Data.MaxIndices, mesh.Indices.begin() + (numIter + 1) * s_Data.MaxIndices);
+          numIter++;
+          count -= s_Data.MaxVertices;
+          s_Data.QuadVertexBuffer->SetData(&data[0], s_Data.MaxVertices * sizeof(VertexData3D));
+          s_Data.QuadIndexBuffer->SetData(&index[0], s_Data.MaxIndices);
+          RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.MaxIndices);
+        }
+
+        std::vector<VertexData3D> data(mesh.Vertices.begin() + numIter * s_Data.MaxVertices, mesh.Vertices.end());
+        std::vector<uint32_t> index(mesh.Indices.begin() + numIter * s_Data.MaxIndices, mesh.Indices.end());
+        s_Data.QuadVertexBuffer->SetData(&data[0], count * sizeof(VertexData3D));
+        s_Data.QuadIndexBuffer->SetData(&index[0], count);
+        RenderCommand::DrawIndexed(s_Data.QuadVertexArray, count);
+      }
+
+      else
+      {
+        s_Data.QuadVertexBuffer->SetData(&mesh.Vertices[0], mesh.Vertices.size() * sizeof(VertexData3D));
+        s_Data.QuadIndexBuffer->SetData(&mesh.Indices[0], mesh.Indices.size());
+        RenderCommand::DrawIndexed(s_Data.QuadVertexArray, mesh.Indices.size());
+      }
+    }
+  }
+
 }
