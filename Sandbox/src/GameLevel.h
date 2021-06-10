@@ -31,6 +31,11 @@ private:
   // ($) std::vector<Bikers> m_Bikers;
   // ($) std::vector<Vehicles> m_Vehicles;
   // ($) std::vector<Pedestrians> m_Pedestrians;
+	Ancora::Ref<Ancora::Model3D> m_RedBox;
+	Ancora::Ref<Ancora::Model3D> m_BlueBox;
+	float m_Red = -20.0f;
+	float m_Blue = -20.0f;
+	float m_Speed = 10.0f;
 
   // CubeMap for the environment
   Ancora::Ref<Ancora::CubeMap> m_CubeMap;

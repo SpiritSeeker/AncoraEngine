@@ -2,11 +2,17 @@
 #include "OpenGLRendererAPI.h"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Ancora {
 
   void OpenGLRendererAPI::Init()
   {
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        bool fail = true;
+        return;
+    }
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

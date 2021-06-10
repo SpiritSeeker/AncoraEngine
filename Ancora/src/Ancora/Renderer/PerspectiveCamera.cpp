@@ -5,16 +5,16 @@
 
 namespace Ancora {
 
-  PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near, float far)
-    : m_ProjectionMatrix(glm::perspective(fov, aspect, near, far))
+  PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float near_, float far_)
+    : m_ProjectionMatrix(glm::perspective(fov, aspect, near_, far_))
   {
     m_ViewMatrix = glm::lookAt(m_Position, m_Center, m_Up);
     m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
   }
 
-  void PerspectiveCamera::SetProjection(float fov, float aspect, float near, float far)
+  void PerspectiveCamera::SetProjection(float fov, float aspect, float near_, float far_)
   {
-    m_ProjectionMatrix = glm::perspective(fov, aspect, near, far);
+    m_ProjectionMatrix = glm::perspective(fov, aspect, near_, far_);
     m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
   }
 

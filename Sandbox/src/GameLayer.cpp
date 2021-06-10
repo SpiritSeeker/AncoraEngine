@@ -29,8 +29,9 @@ void GameLayer::OnUpdate(Ancora::Timestep ts)
     m_State = GameState::GameOver;
 
   // (^) See how this looks and maybe change it to be at the center of the road and follow the player along the road
-  const auto& playerPos = m_Level.GetPlayer().GetPosition();
-  m_Camera->SetView({ playerPos.x, playerPos.y, playerPos.z + 2.0f });
+  // const auto& playerPos = m_Level.GetPlayer().GetPosition();
+  // m_Camera->SetView({ playerPos.x, playerPos.y, playerPos.z + 2.0f });
+  m_Camera->SetView({ 0.0f, 2.0f, 10.0f });
 
   switch (m_State)
   {
@@ -42,7 +43,7 @@ void GameLayer::OnUpdate(Ancora::Timestep ts)
   }
 
   // Rendering
-  Ancora::RenderCommand::SetClearColor({ 0.8f, 0.5f, 0.3f, 1.0f });
+  Ancora::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.11f, 1.0f });
   Ancora::RenderCommand::Clear();
 
   m_Level.OnRender();

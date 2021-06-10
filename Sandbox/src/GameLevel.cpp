@@ -1,4 +1,5 @@
 #include "GameLevel.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 // Initial setup
 void GameLevel::Init()
@@ -14,13 +15,15 @@ void GameLevel::Init()
   //   "Sandbox/assets/cubemaps/tears_of_steel/nz.png"
   // };
 
-  m_CubeMap = Ancora::CubeMap::Create(textureFaces);
+  // m_CubeMap = Ancora::CubeMap::Create(textureFaces);
 
   // (#) Call LoadAssets for every object.
   // ($) m_Player.LoadAssets();
+	m_RedBox = Ancora::ModelLoader::LoadModel("assets/models/box_red_arrow.fbx");
+	m_BlueBox = Ancora::ModelLoader::LoadModel("assets/models/box_blue_arrow.fbx");
 
   // Load lights
-  m_SceneData.DirLight = Ancora::Light::CreateDirectionalLight(glm::vec3(1.0f, -1.0f, 1.0f));
+  m_SceneData.DirLight = Ancora::Light::CreateDirectionalLight(glm::vec3(0.0f, -1.0f, -2.0f));
 }
 
 void GameLevel::OnUpdate(Ancora::Timestep ts)
@@ -35,7 +38,13 @@ void GameLevel::OnUpdate(Ancora::Timestep ts)
   // }
 
   // (#) Check if player crossed finish line here.
-
+	m_Red += ts * m_Speed;
+	m_Blue += ts * m_Speed;
+	if (m_Red > 10)
+	{
+		m_Red = -20.0f;
+		m_Blue = -20.0f;
+	}
 }
 
 void GameLevel::OnRender()
@@ -55,7 +64,9 @@ void GameLevel::OnRender()
   // ($) m_RoadMap.OnRender();
 
   // Render the environment
-  Ancora::Renderer3D::SkyBox(m_CubeMap, glm::vec3(0.0f), glm::vec3(100.0f));
+  // Ancora::Renderer3D::SkyBox(m_CubeMap, glm::vec3(0.0f), glm::vec3(100.0f));
+  Ancora::Renderer3D::DrawModel(m_RedBox, glm::translate(glm::mat4(1.0f), glm::vec3({ -1.0f, 0.0f, m_Red })) * glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3({ 0.0f, -1.0f, 0.0f })) * glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3({ 0.0f, 0.0f, -1.0f })) * glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+  Ancora::Renderer3D::DrawModel(m_BlueBox, glm::translate(glm::mat4(1.0f), glm::vec3({ 1.0f, 0.0f, m_Blue })) * glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3({ 0.0f, -1.0f, 0.0f })) * glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3({ 0.0f, 0.0f, -1.0f })) * glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
   Ancora::Renderer3D::EndScene();
 }

@@ -7,9 +7,9 @@ namespace Ancora {
   class PerspectiveCamera
   {
   public:
-    PerspectiveCamera(float fov, float aspect, float near, float far);
+    PerspectiveCamera(float fov, float aspect, float near_, float far_);
 
-    void SetProjection(float fov, float aspect, float near, float far);
+    void SetProjection(float fov, float aspect, float near_, float far_);
 
     void SetView(const glm::vec3& position, const glm::vec3& center = glm::vec3(0.0f), const glm::vec3& up = glm::vec3(0.0f));
 

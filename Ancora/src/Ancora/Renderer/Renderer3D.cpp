@@ -49,9 +49,9 @@ namespace Ancora {
 
     s_Data.ColorTexture = Texture2D::Create(1, 1);
 
-    s_Data.QuadShader = Shader::Create("Sandbox/assets/shaders/FlatColor.glsl");
-    s_Data.CubeMapShader = Shader::Create("Sandbox/assets/shaders/CubeMap.glsl");
-    s_Data.LightingShader = Shader::Create("Sandbox/assets/shaders/Lighting.glsl");
+    s_Data.QuadShader = Shader::Create("assets/shaders/FlatColor.glsl");
+    s_Data.CubeMapShader = Shader::Create("assets/shaders/CubeMap.glsl");
+    s_Data.LightingShader = Shader::Create("assets/shaders/Lighting.glsl");
   }
 
   void Renderer3D::Shutdown()
