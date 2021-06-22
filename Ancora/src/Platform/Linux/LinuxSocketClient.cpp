@@ -1,9 +1,9 @@
 #include "aepch.h"
-#include "SocketClient.h"
+#include "LinuxSocketClient.h"
 
 namespace Ancora {
 
-  SocketClient::SocketClient(const SocketClientProps& clientProps)
+  LinuxSocketClient::LinuxSocketClient(const SocketClientProps& clientProps)
     : m_Props(clientProps)
   {
     m_Domain = m_Props.UseIPv6 ? AF_INET6 : AF_INET;
@@ -16,7 +16,7 @@ namespace Ancora {
     }
   }
 
-  void SocketClient::Connect(const std::string& address)
+  void LinuxSocketClient::Connect(const std::string& address)
   {
     struct sockaddr_in serverAddress;
     serverAddress.sin_family = m_Domain;
@@ -38,7 +38,7 @@ namespace Ancora {
     AE_CORE_INFO(message);
   }
 
-  std::string SocketClient::Read()
+  std::string LinuxSocketClient::Read()
   {
     char *buffer = new char[m_Props.BufferSize];
     uint32_t readSize = read(m_ClientDescriptor, buffer, m_Props.BufferSize);
@@ -49,14 +49,14 @@ namespace Ancora {
     return data;
   }
 
-  void SocketClient::Send(const std::string& message)
+  void LinuxSocketClient::Send(const std::string& message)
   {
     send(m_ClientDescriptor, message.c_str(), message.size(), 0);
   }
 
   Ref<SocketClient> SocketClient::Create(const SocketClientProps& clientProps)
   {
-    return CreateRef<SocketClient>(clientProps);
+    return CreateRef<LinuxSocketClient>(clientProps);
   }
 
 }

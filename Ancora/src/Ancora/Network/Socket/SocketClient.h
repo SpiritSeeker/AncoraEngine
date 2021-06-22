@@ -10,22 +10,17 @@ namespace Ancora {
 		uint32_t BufferSize = 1024;
 	};
 
-	class SocketClient
-	{
-	public:
-		SocketClient(const SocketClientProps& clientProps);
-		~SocketClient() = default;
+  class SocketClient
+  {
+  public:
+    virtual ~SocketClient() {}
 
-		void Connect(const std::string& address = "127.0.0.1");
+    virtual void Connect(const std::string& address) = 0;
 
-		std::string Read();
-		void Send(const std::string& message);
+    virtual std::string Read() = 0;
+    virtual void Send(const std::string& message) = 0;
 
-		static Ref<SocketClient> Create(const SocketClientProps& clientProps = SocketClientProps());
-	private:
-		SocketClientProps m_Props;
-		int m_Domain;
-		int m_ClientDescriptor;
-	};
+    static Ref<SocketClient> Create(const SocketClientProps& clientProps = SocketClientProps());
+  };
 
 }

@@ -1,9 +1,9 @@
 #include "aepch.h"
-#include "SocketServer.h"
+#include "LinuxSocketServer.h"
 
 namespace Ancora {
 
-  SocketServer::SocketServer(const SocketServerProps& serverProps)
+  LinuxSocketServer::LinuxSocketServer(const SocketServerProps& serverProps)
 		: m_Props(serverProps)
 	{
 		m_Domain = m_Props.UseIPv6 ? AF_INET6 : AF_INET;
@@ -23,7 +23,7 @@ namespace Ancora {
 		}
 	}
 
-	void SocketServer::Bind(int queueLength)
+	void LinuxSocketServer::Bind(int queueLength)
 	{
 		int addressLength = sizeof(m_Address);
 
@@ -46,7 +46,7 @@ namespace Ancora {
 		AE_CORE_INFO("SERVER INFO: Listening for connections!");
 	}
 
-	int SocketServer::Accept()
+	int LinuxSocketServer::Accept()
 	{
 		int addressLength = sizeof(m_Address);
 		int newSocket;
@@ -61,7 +61,7 @@ namespace Ancora {
 		return newSocket;
 	}
 
-	std::string SocketServer::Read(int socket)
+	std::string LinuxSocketServer::Read(int socket)
 	{
 		if (socket == -1) socket = activeConnection;
 		if (socket == -1)
@@ -80,7 +80,7 @@ namespace Ancora {
 		return data;
 	}
 
-	void SocketServer::Send(const std::string& message, int socket)
+	void LinuxSocketServer::Send(const std::string& message, int socket)
 	{
 		if (socket == -1) socket = activeConnection;
 		if (socket == -1)
@@ -94,7 +94,7 @@ namespace Ancora {
 
 	Ref<SocketServer> SocketServer::Create(const SocketServerProps& serverProps)
 	{
-		return CreateRef<SocketServer>(serverProps);
+		return CreateRef<LinuxSocketServer>(serverProps);
 	}
 
 }

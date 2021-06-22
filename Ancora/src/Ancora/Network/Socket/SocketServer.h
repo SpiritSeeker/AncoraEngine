@@ -13,22 +13,15 @@ namespace Ancora {
   class SocketServer
   {
   public:
-    SocketServer(const SocketServerProps& serverProps);
-    ~SocketServer() = default;
+    virtual ~SocketServer() {}
 
-		void Bind(int queueLength = 3);
-		int Accept();
+    virtual void Bind(int queueLength) = 0;
+    virtual int Accept() = 0;
 
-		std::string Read(int socket = -1);
-		void Send(const std::string& message, int socket = -1);
+    virtual std::string Read(int socket) = 0;
+    virtual void Send(const std::string& message, int socket) = 0;
 
-		static Ref<SocketServer> Create(const SocketServerProps& serverProps = SocketServerProps());
-	private:
-		SocketServerProps m_Props;
-		int m_Domain;
-		int m_ServerDescriptor;
-		struct sockaddr_in m_Address;
-		int activeConnection = -1;
-	};
+    static Ref<SocketServer> Create(const SocketServerProps& serverProps = SocketServerProps());
+  };
 
 }
