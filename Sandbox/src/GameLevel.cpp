@@ -19,8 +19,8 @@ void GameLevel::Init()
 
   // (#) Call LoadAssets for every object.
   // ($) m_Player.LoadAssets();
-	m_RedBox = Ancora::ModelLoader::LoadModel("assets/models/box_red_arrow.fbx");
-	m_BlueBox = Ancora::ModelLoader::LoadModel("assets/models/box_blue_arrow.fbx");
+	m_RedBox = Ancora::ModelLoader::LoadModel("Sandbox/assets/models/box_red_arrow.fbx");
+	m_BlueBox = Ancora::ModelLoader::LoadModel("Sandbox/assets/models/box_blue_arrow.fbx");
 
   // Load lights
   m_SceneData.DirLight = Ancora::Light::CreateDirectionalLight(glm::vec3(0.0f, -1.0f, -2.0f));
@@ -36,6 +36,8 @@ void GameLevel::OnUpdate(Ancora::Timestep ts)
   // ($) if (CollisionTest())
   // {
   // }
+	auto data = m_Controller->GetData();
+	AE_TRACE("{0}", data.Data);
 
   // (#) Check if player crossed finish line here.
 	m_Red += ts * m_Speed;

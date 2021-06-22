@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Ancora.h>
+#include "Controller/Controller.h"
 
 // (#) Include all the implementations of GameObjects here.
 // ($) #include "Player.h"
@@ -15,6 +16,8 @@ public:
 
   bool IsGameOver() const { return m_GameOver; }
   void Reset();
+
+  void SetController(const Ancora::Ref<Controller>& controller) { m_Controller = controller; }
 
   void UpdateCamera(const Ancora::Ref<Ancora::PerspectiveCamera>& camera) { m_SceneData.Camera = camera; }
 
@@ -31,6 +34,7 @@ private:
   // ($) std::vector<Bikers> m_Bikers;
   // ($) std::vector<Vehicles> m_Vehicles;
   // ($) std::vector<Pedestrians> m_Pedestrians;
+  Ancora::Ref<Controller> m_Controller;
 	Ancora::Ref<Ancora::Model3D> m_RedBox;
 	Ancora::Ref<Ancora::Model3D> m_BlueBox;
 	float m_Red = -20.0f;

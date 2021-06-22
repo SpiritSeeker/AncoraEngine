@@ -21,6 +21,7 @@ private:
   bool OnWindowResize(Ancora::WindowResizeEvent& e);
 private:
   Ancora::Ref<Ancora::PerspectiveCamera> m_Camera;
+  Ancora::Ref<Controller> m_Controller;
   GameLevel m_Level;
   int m_FPS;
 

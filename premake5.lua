@@ -173,6 +173,7 @@ project "Sandbox"
 	{
 		"Ancora/vendor/spdlog/include",
 		"Ancora/src",
+		"Sandbox/src",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.assimp}"
@@ -190,6 +191,11 @@ project "Sandbox"
 		{
 			"AE_PLATFORM_LINUX",
 			"AE_BUILD_DLL"
+		}
+
+		links
+		{
+			"pthread"
 		}
 
 	filter "system:windows"

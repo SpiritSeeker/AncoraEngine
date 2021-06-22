@@ -1,9 +1,14 @@
 # Directories
 
 .vs/
+.vscode/
 bin/
 bin-int/
 
 # Files
 Makefile
 *.ini
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user

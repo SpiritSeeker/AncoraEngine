@@ -31,3 +31,7 @@
 #include "Ancora/Renderer/OrthographicCamera.h"
 #include "Ancora/Renderer/PerspectiveCamera.h"
 // ----------------------------------------------
+
+// ------------------ Networking ----------------
+#include "Ancora/Network/Socket/SocketClient.h"
+#include "Ancora/Network/Socket/SocketServer.h"

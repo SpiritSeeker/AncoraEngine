@@ -5,6 +5,7 @@ GameLayer::GameLayer()
 {
   auto& window = Ancora::Application::Get().GetWindow();
   CreateCamera(window.GetWidth(), window.GetHeight());
+  m_Controller = Controller::Create();
 
   Ancora::Random::Init();
 }
@@ -12,6 +13,7 @@ GameLayer::GameLayer()
 void GameLayer::OnAttach()
 {
   m_Level.Init();
+  m_Level.SetController(m_Controller);
 }
 
 void GameLayer::OnDetach()
