@@ -2,19 +2,22 @@
 
 #include "Ancora/Network/Socket/SocketServer.h"
 
-#include <sys/socket.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <cstring>
+#ifndef UNICODE
+#define UNICODE 1
+#endif
+
+#pragma comment(lib,"Ws2_32.lib")
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
 
 namespace Ancora {
 
-  class LinuxSocketServer : public SocketServer
+  class WindowsSocketServer : public SocketServer
   {
   public:
-    LinuxSocketServer(const SocketServerProps& serverProps);
-    virtual ~LinuxSocketServer() = default;
+    WindowsSocketServer(const SocketServerProps& serverProps);
+    virtual ~WindowsSocketServer();
 
 		virtual void Bind(int queueLength = 3) override;
 		virtual int Accept() override;

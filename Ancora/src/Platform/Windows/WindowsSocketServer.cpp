@@ -1,35 +1,42 @@
 #include "aepch.h"
-#include "LinuxSocketServer.h"
+#include "WindowsSocketServer.h"
 
 namespace Ancora {
 
-  LinuxSocketServer::LinuxSocketServer(const SocketServerProps& serverProps)
+  WindowsSocketServer::WindowsSocketServer(const SocketServerProps& serverProps)
 		: m_Props(serverProps)
 	{
 		m_Domain = m_Props.UseIPv6 ? AF_INET6 : AF_INET;
 		int connectionType = m_Props.UseTCP ? SOCK_STREAM : SOCK_DGRAM;
-
-		if ((m_ServerDescriptor = socket(m_Domain, connectionType, 0)) == 0)
-		{
-			AE_CORE_ERROR("SERVER ERROR: Socket creation failed!");
-			return;
-		}
-
-		int opt = 1;
-		if (setsockopt(m_ServerDescriptor, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
-		{
-			AE_CORE_ERROR("SERVER ERROR: Failed to add options to socket!");
-			return;
-		}
-	}
-
-	void LinuxSocketServer::Bind(int queueLength)
-	{
-		int addressLength = sizeof(m_Address);
-
-		m_Address.sin_family = m_Domain;
+    int connectionProtocol = m_Props.UseTCP ? IPPROTO_TCP : IPPROTO_UDP;
+    m_Address.sin_family = m_Domain;
 		m_Address.sin_addr.s_addr = INADDR_ANY;
 		m_Address.sin_port = htons(m_Props.Port);
+    WSADATA wsaData = { 0 };
+
+    int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (result != 0) {
+      AE_CORE_ERROR("SERVER ERROR: WSA startup failed!");
+      return;
+    }
+
+	m_ServerDescriptor = socket(m_Domain, connectionType, connectionProtocol);
+    if (m_ServerDescriptor == INVALID_SOCKET)
+    {
+      AE_CORE_ERROR("SERVER ERROR: Socket creation failed!");
+      return;
+    }
+	}
+
+  WindowsSocketServer::~WindowsSocketServer()
+  {
+    closesocket(m_ServerDescriptor);
+    WSACleanup();
+  }
+
+	void WindowsSocketServer::Bind(int queueLength)
+	{
+		int addressLength = sizeof(m_Address);
 
 		if (bind(m_ServerDescriptor, (struct sockaddr*)&m_Address, addressLength) < 0)
 		{
@@ -46,7 +53,7 @@ namespace Ancora {
 		AE_CORE_INFO("SERVER INFO: Listening for connections!");
 	}
 
-	int LinuxSocketServer::Accept()
+	int WindowsSocketServer::Accept()
 	{
 		int addressLength = sizeof(m_Address);
 		int newSocket;
@@ -61,7 +68,7 @@ namespace Ancora {
 		return newSocket;
 	}
 
-	std::string LinuxSocketServer::Read(int socket)
+	std::string WindowsSocketServer::Read(int socket)
 	{
 		if (socket == -1) socket = m_ActiveConnection;
 		if (socket == -1)
@@ -72,7 +79,7 @@ namespace Ancora {
 		}
 
 		char *buffer = new char[m_Props.BufferSize];
-		uint32_t readSize = read(socket, buffer, m_Props.BufferSize);
+		uint32_t readSize = recv(socket, buffer, m_Props.BufferSize, 0);
 
 		std::string data(buffer, readSize);
 		delete[] buffer;
@@ -80,7 +87,7 @@ namespace Ancora {
 		return data;
 	}
 
-	void LinuxSocketServer::Send(const std::string& message, int socket)
+	void WindowsSocketServer::Send(const std::string& message, int socket)
 	{
 		if (socket == -1) socket = m_ActiveConnection;
 		if (socket == -1)
@@ -94,7 +101,7 @@ namespace Ancora {
 
 	Ref<SocketServer> SocketServer::Create(const SocketServerProps& serverProps)
 	{
-		return CreateRef<LinuxSocketServer>(serverProps);
+		return CreateRef<WindowsSocketServer>(serverProps);
 	}
 
 }
