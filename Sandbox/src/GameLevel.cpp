@@ -44,16 +44,10 @@ void GameLevel::OnUpdate(Ancora::Timestep ts)
   // {
   // }
 	auto data = m_Controller->GetData();
-	AE_TRACE("{0}", data.Data);
 
   // (#) Check if player crossed finish line here.
-	m_Red += ts * m_Speed;
-	m_Blue += ts * m_Speed;
-	if (m_Red > 10)
-	{
-		m_Red = -20.0f;
-		m_Blue = -20.0f;
-	}
+	m_Red = data.Data - 30;
+	m_Blue = m_Red;
 }
 
 void GameLevel::OnRender()
