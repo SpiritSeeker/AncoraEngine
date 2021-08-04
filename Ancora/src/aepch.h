@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <functional>
 #include <thread>
+#include <fstream>
+#include <filesystem>
 
 #include <string>
 #include <sstream>
@@ -11,6 +13,7 @@
 #include <array>
 #include <unordered_set>
 #include <unordered_map>
+#include <deque>
 
 #include "Ancora/Core/Log.h"
 
