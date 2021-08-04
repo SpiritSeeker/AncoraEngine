@@ -1,23 +1,3 @@
-workspace "Ancora"
-	architecture "x64"
-	startproject "Sandbox"
-
-	configurations
-	{
-		"Debug",
-		"Release",
-		"Dist"
-	}
-
-	platforms
-	{
-		"linux",
-		"windows",
-		"macosx"
-	}
-
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
 IncludeDir = {}
 IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
@@ -31,40 +11,39 @@ include "Ancora/vendor/Glad"
 include "Ancora/vendor/imgui"
 include "Ancora/vendor/assimp"
 
-project "Ancora"
-	location "Ancora"
+project "AncoraEngine"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
 	warnings "Default"
 	-- warnings can take the values "Off", "Default", "Extra"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/Ancora")
+	objdir ("bin-int/" .. outputdir .. "/Ancora")
 
 	pchheader "aepch.h"
 	pchsource "Ancora/src/aepch.cpp"
 
 	files
 	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp",
-		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"Ancora/src/**.h",
+		"Ancora/src/**.cpp",
+		"Ancora/vendor/stb_image/**.h",
+		"Ancora/vendor/stb_image/**.cpp",
+		"Ancora/vendor/glm/glm/**.hpp",
+		"Ancora/vendor/glm/glm/**.inl"
 	}
 
 	excludes
 	{
-		"%{prj.name}/src/Platform/**.h",
-		"%{prj.name}/src/Platform/**.cpp"
+		"Ancora/src/Platform/**.h",
+		"Ancora/src/Platform/**.cpp"
 	}
 
 	includedirs
 	{
-		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
+		"Ancora/src",
+		"Ancora/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
@@ -98,10 +77,10 @@ project "Ancora"
 
 		files
 		{
-			"%{prj.name}/src/Platform/Linux/**.h",
-			"%{prj.name}/src/Platform/Linux/**.cpp",
-			"%{prj.name}/src/Platform/OpenGL/**.h",
-			"%{prj.name}/src/Platform/OpenGL/**.cpp"
+			"Ancora/src/Platform/Linux/**.h",
+			"Ancora/src/Platform/Linux/**.cpp",
+			"Ancora/src/Platform/OpenGL/**.h",
+			"Ancora/src/Platform/OpenGL/**.cpp"
 		}
 
 		defines
@@ -127,10 +106,10 @@ project "Ancora"
 
 		files
 		{
-			"%{prj.name}/src/Platform/Linux/**.h",
-			"%{prj.name}/src/Platform/Linux/**.cpp",
-			"%{prj.name}/src/Platform/OpenGL/**.h",
-			"%{prj.name}/src/Platform/OpenGL/**.cpp"
+			"Ancora/src/Platform/Linux/**.h",
+			"Ancora/src/Platform/Linux/**.cpp",
+			"Ancora/src/Platform/OpenGL/**.h",
+			"Ancora/src/Platform/OpenGL/**.cpp"
 		}
 
 		defines
@@ -151,10 +130,10 @@ project "Ancora"
 
 		files
 		{
-			"%{prj.name}/src/Platform/Windows/**.h",
-			"%{prj.name}/src/Platform/Windows/**.cpp",
-			"%{prj.name}/src/Platform/OpenGL/**.h",
-			"%{prj.name}/src/Platform/OpenGL/**.cpp"
+			"Ancora/src/Platform/Windows/**.h",
+			"Ancora/src/Platform/Windows/**.cpp",
+			"Ancora/src/Platform/OpenGL/**.h",
+			"Ancora/src/Platform/OpenGL/**.cpp"
 		}
 
 		defines
@@ -163,79 +142,6 @@ project "Ancora"
 			"AE_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
-
-	filter "configurations:Debug"
-		defines
-		{
-			"AE_DEBUG",
-			"AE_ENABLE_ASSERTS"
-		}
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "AE_RELEASE"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		defines "AE_DIST"
-		runtime "Release"
-		optimize "on"
-
-project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Ancora/vendor/spdlog/include",
-		"Ancora/src",
-		"Sandbox/src",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.assimp}"
-	}
-
-	links
-	{
-		"Ancora",
-		"assimp"
-	}
-
-	filter "system:linux"
-
-		defines
-		{
-			"AE_PLATFORM_LINUX",
-			"AE_BUILD_DLL"
-		}
-
-		links
-		{
-			"pthread"
-		}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"AE_PLATFORM_WINDOWS"
-		}
-
 
 	filter "configurations:Debug"
 		defines
