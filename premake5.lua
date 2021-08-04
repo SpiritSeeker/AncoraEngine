@@ -12,7 +12,8 @@ workspace "Ancora"
 	platforms
 	{
 		"linux",
-		"windows"
+		"windows",
+		"macosx"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -91,6 +92,35 @@ project "Ancora"
 		links
 		{
 			"GL",
+			"dl",
+			"pthread"
+		}
+
+		files
+		{
+			"%{prj.name}/src/Platform/Linux/**.h",
+			"%{prj.name}/src/Platform/Linux/**.cpp",
+			"%{prj.name}/src/Platform/OpenGL/**.h",
+			"%{prj.name}/src/Platform/OpenGL/**.cpp"
+		}
+
+		defines
+		{
+			"AE_PLATFORM_LINUX",
+			"AE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
+		}
+
+	filter "system:macosx"
+		kind "SharedLib"
+
+		defines
+		{
+			"AE_DYNAMIC_LINK"
+		}
+
+		links
+		{
 			"dl",
 			"pthread"
 		}

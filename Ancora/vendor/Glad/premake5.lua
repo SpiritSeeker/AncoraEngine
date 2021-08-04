@@ -18,7 +18,7 @@ project "Glad"
 		"include"
 	}
 
-	filter "system:linux"
+	filter "system:linux or macosx"
 		buildoptions { "-std=c11", "-fPIC" }
 
 	filter "system:windows"
