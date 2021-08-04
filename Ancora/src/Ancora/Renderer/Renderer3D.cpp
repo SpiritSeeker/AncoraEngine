@@ -54,9 +54,9 @@ namespace Ancora {
       s_Data.CubeMapShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/CubeMap.glsl");
       s_Data.LightingShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/Lighting.glsl");
     #elif AE_PLATFORM_WINDOWS
-      s_Data.QuadShader = Shader::Create("assets/shaders/FlatColor.glsl");
-      s_Data.CubeMapShader = Shader::Create("assets/shaders/CubeMap.glsl");
-      s_Data.LightingShader = Shader::Create("assets/shaders/Lighting.glsl");
+      s_Data.QuadShader = Shader::Create("../AncoraEngine/Ancora/assets/shaders/FlatColor.glsl");
+      s_Data.CubeMapShader = Shader::Create("../AncoraEngine/Ancora/assets/shaders/CubeMap.glsl");
+      s_Data.LightingShader = Shader::Create("../AncoraEngine/Ancora/assets/shaders/Lighting.glsl");
     #else
       AE_CORE_ERROR("Only Linux and Windows supported!");
     #endif
