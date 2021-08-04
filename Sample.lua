@@ -17,6 +17,15 @@ workspace "Sandbox"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDir = {}
+IncludeDir["GLFW"] = "Ancora/vendor/GLFW/include"
+IncludeDir["Glad"] = "Ancora/vendor/Glad/include"
+IncludeDir["ImGui"] = "Ancora/vendor/imgui"
+IncludeDir["glm"] = "Ancora/vendor/glm"
+IncludeDir["stb_image"] = "Ancora/vendor/stb_image"
+IncludeDir["assimp"] = "Ancora/vendor/assimp/include"
+
 include "AncoraEngine"
 
 project "Sandbox"
