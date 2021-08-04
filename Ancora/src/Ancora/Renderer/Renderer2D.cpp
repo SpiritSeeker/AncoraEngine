@@ -54,7 +54,7 @@ namespace Ancora {
     s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
     #ifdef AE_PLATFORM_LINUX
-      s_Data->TextureShader = Shader::Create("Sandbox/assets/shaders/Texture.glsl");
+      s_Data->TextureShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/Texture.glsl");
     #elif AE_PLATFORM_WINDOWS
       s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
     #else

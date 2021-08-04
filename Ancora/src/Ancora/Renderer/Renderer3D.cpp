@@ -50,9 +50,9 @@ namespace Ancora {
     s_Data.ColorTexture = Texture2D::Create(1, 1);
 
     #ifdef AE_PLATFORM_LINUX
-      s_Data.QuadShader = Shader::Create("Sandbox/assets/shaders/FlatColor.glsl");
-      s_Data.CubeMapShader = Shader::Create("Sandbox/assets/shaders/CubeMap.glsl");
-      s_Data.LightingShader = Shader::Create("Sandbox/assets/shaders/Lighting.glsl");
+      s_Data.QuadShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/FlatColor.glsl");
+      s_Data.CubeMapShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/CubeMap.glsl");
+      s_Data.LightingShader = Shader::Create("AncoraEngine/Ancora/assets/shaders/Lighting.glsl");
     #elif AE_PLATFORM_WINDOWS
       s_Data.QuadShader = Shader::Create("assets/shaders/FlatColor.glsl");
       s_Data.CubeMapShader = Shader::Create("assets/shaders/CubeMap.glsl");
